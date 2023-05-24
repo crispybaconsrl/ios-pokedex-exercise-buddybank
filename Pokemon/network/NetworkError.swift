@@ -7,6 +7,7 @@
 
 enum NetworkError: Error {
     case invalidResponse
+    case invalidRequest
     case decodingFailed
     case generic
 }
