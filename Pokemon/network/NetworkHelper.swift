@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SystemConfiguration
 
 enum PokemonEndpoint {
     case pokemonList
@@ -26,22 +27,53 @@ enum HttpMethod: String {
     case post = "POST"
 }
 
+protocol NetworkStatusDelegate: AnyObject {
+    func networkStatusDidChange(isAvailable: Bool)
+}
+
 class NetworkHelper {
     
-    static let baseUrl = "https://pokeapi.co/api/v2/"
+    static let shared = NetworkHelper()
     
-    static func createRequest(url: String, endPoint: String?, method: HttpMethod? = HttpMethod.get) -> URLRequest? {
-        var finalUrl: String = url
-        if let e = endPoint {
-            finalUrl += "\(e)"
-        }
-        guard let url = URL(string: finalUrl) else {
-            return nil
-        }
-        print("request on \(finalUrl)")
-        var request = URLRequest(url: url)
-        request.httpMethod = method?.rawValue ?? HttpMethod.get.rawValue
-        return URLRequest(url: url)
+    private var reachability: SCNetworkReachability?
+    weak var delegate: NetworkStatusDelegate?
+    
+    private init() {
+        self.reachability = SCNetworkReachabilityCreateWithName(nil, "www.apple.com")
     }
     
+    // MARK: - Reachability section -
+    
+    func startMonitoringNetworkStatus() {
+        var context = SCNetworkReachabilityContext(version: 0, info: nil, retain: nil, release: nil, copyDescription: nil)
+        context.info = UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque())
+        
+        if let reachability = reachability,
+           SCNetworkReachabilitySetCallback(reachability, { (reachability, flags, info) in
+               if let info = info {
+                   let networkManager = Unmanaged<NetworkHelper>.fromOpaque(info).takeUnretainedValue()
+                   networkManager.networkStatusDidChange()
+               }
+           }, &context) {
+            SCNetworkReachabilityScheduleWithRunLoop(reachability, CFRunLoopGetCurrent(), CFRunLoopMode.defaultMode.rawValue)
+        }
+    }
+    
+    func stopMonitoringNetworkStatus() {
+        if let reachability = reachability {
+            SCNetworkReachabilityUnscheduleFromRunLoop(reachability, CFRunLoopGetCurrent(), CFRunLoopMode.defaultMode.rawValue)
+        }
+    }
+    
+    func networkStatusDidChange() {
+        self.delegate?.networkStatusDidChange(isAvailable: self.isNetworkAvailable())
+    }
+    
+    private func isNetworkAvailable() -> Bool {
+        var flags = SCNetworkReachabilityFlags()
+        if let reachability = reachability {
+            SCNetworkReachabilityGetFlags(reachability, &flags)
+        }
+        return flags.contains(.reachable) && !flags.contains(.connectionRequired)
+    }
 }

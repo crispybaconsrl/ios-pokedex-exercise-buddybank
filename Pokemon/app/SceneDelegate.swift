@@ -22,7 +22,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         self.coordinator = PokemonCoordinator(navigationController: navController)
         self.coordinator?.start()
-
+        
+        NetworkHelper.shared.startMonitoringNetworkStatus()
+        
         appWindow.rootViewController = navController
         appWindow.makeKeyAndVisible()
         
