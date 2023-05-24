@@ -23,7 +23,7 @@ struct Pokemon: Codable {
         }
     }
     var imageUrl: String?
-    var index: Int?
+    var id: Int?
     
     // MARK: - Codekeys -
     
@@ -47,7 +47,7 @@ struct Pokemon: Codable {
         if let url = URL(string: self.url) {
             let lastPathComponent = url.lastPathComponent
             if let pokemonIndex = Int(lastPathComponent) {
-                self.index = pokemonIndex
+                self.id = pokemonIndex
             }
             self.imageUrl = Pokemon.imageBaseUrl.replacingOccurrences(of: "{pokemonIndex}", with: lastPathComponent)
         }
