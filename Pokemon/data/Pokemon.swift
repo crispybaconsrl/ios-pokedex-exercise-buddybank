@@ -23,6 +23,7 @@ struct Pokemon: Codable {
         }
     }
     var imageUrl: String?
+    var index: Int?
     
     // MARK: - Codekeys -
     
@@ -37,14 +38,18 @@ struct Pokemon: Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.name = try container.decode(String.self, forKey: .name)
         self.url = try container.decode(String.self, forKey: .url)
-        self.updateImageUrl()
+        self.setupExtraInfo()
     }
     
     // MARK: - Private methods -
     
-    private mutating func updateImageUrl() {
+    private mutating func setupExtraInfo() {
         if let url = URL(string: self.url) {
-            self.imageUrl = Pokemon.imageBaseUrl.replacingOccurrences(of: "{pokemonIndex}", with: url.lastPathComponent)
+            let lastPathComponent = url.lastPathComponent
+            if let pokemonIndex = Int(lastPathComponent) {
+                self.index = pokemonIndex
+            }
+            self.imageUrl = Pokemon.imageBaseUrl.replacingOccurrences(of: "{pokemonIndex}", with: lastPathComponent)
         }
     }
     
