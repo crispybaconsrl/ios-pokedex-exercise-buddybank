@@ -12,8 +12,14 @@ protocol BaseViewControllerProtocol {
 }
 
 class BaseViewController: UIViewController, BaseViewControllerProtocol {
+    
+    // MARK: - Variables -
+    
     weak var coordinator: PokemonCoordinator?
     weak var viewModel: BaseViewModel?
+    lazy var noDataView: NoDataView = NoDataView()
+    
+    // MARK: - Class methods -
     
     static func instantiate() -> BaseViewController {
         let className = "\(Bundle.main.appName ?? "").\(String(describing: self))"
@@ -21,6 +27,17 @@ class BaseViewController: UIViewController, BaseViewControllerProtocol {
             return viewControllerClass.init()
         }
         return BaseViewController()
+    }
+    
+    // MARK: - Public methods -
+    
+    func displayNoDataView(_ show: Bool) {
+        self.noDataView.isHidden = !show
+        if show {
+            self.noDataView.attach(on: self.view)
+        } else {
+            self.noDataView.detach(from: self.view)
+        }
     }
     
 }

@@ -16,5 +16,9 @@ class PokemonListViewController: BaseViewController {
         print("PokemonListViewController")
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.displayNoDataView(true)
+    }
 
 }

@@ -14,6 +14,7 @@ class PokemonDetailsViewController: BaseViewController {
         self.view.backgroundColor = .green
         self.title = "Details"
         print("PokemonDetailsViewController")
+        
     }
 
 
