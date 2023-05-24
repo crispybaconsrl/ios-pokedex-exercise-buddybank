@@ -42,4 +42,5 @@ class NetworkRequest: NetworkRequestProtocol {
          
          task.resume()
      }
+    
 }
