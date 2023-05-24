@@ -10,13 +10,33 @@ import Foundation
 class PokemonRequest: NetworkRequest {
     
     func getPokemonList(completion: @escaping (Result<PokemonList, Error>) -> Void) {
-        let request = NetworkHelper.createRequest(url: NetworkHelper.baseUrl, endPoint: PokemonEndpoint.pokemonList.rawValue)
+        let request = NetworkHelper.createRequest(url: NetworkHelper.baseUrl,
+                                                  endPoint: PokemonEndpoint.pokemonList.rawValue)
         guard let request = request else {
             completion(.failure(NetworkError.invalidRequest))
             return
         }
         self.sendRequest(request: request, completion: completion)
     }
+    
+    func getPokemonDetails(pokemon: Pokemon, completion: @escaping (Result<PokemonDetail, Error>) -> Void) {
+        guard let id = pokemon.id else {
+            completion(.failure(NetworkError.invalidRequest))
+            return
+        }
+        self.getPokemonDetails(pokemonId: id, completion: completion)
+    }
+
+    func getPokemonDetails(pokemonId: Int, completion: @escaping (Result<PokemonDetail, Error>) -> Void) {
+        let request = NetworkHelper.createRequest(url: NetworkHelper.baseUrl,
+                                                  endPoint: PokemonEndpoint.pokemonDetails(pokemonId).rawValue)
+        guard let request = request else {
+            completion(.failure(NetworkError.invalidRequest))
+            return
+        }
+        self.sendRequest(request: request, completion: completion)
+    }
+
     
 }
 

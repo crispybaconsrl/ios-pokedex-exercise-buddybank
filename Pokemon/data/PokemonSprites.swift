@@ -1,11 +1,11 @@
 //
-//  PokemonSprint.swift
+//  PokemonSprites.swift
 //  Pokemon
 //
 //  Created by Luca Davanzo on 24/05/23.
 //
 
-struct PokemonSprint: Codable {
+struct PokemonSprites: Codable {
  
     let backDefault: String?
     let frontDefault: String?

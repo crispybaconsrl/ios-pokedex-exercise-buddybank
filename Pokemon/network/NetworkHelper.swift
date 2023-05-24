@@ -7,9 +7,18 @@
 
 import Foundation
 
-enum PokemonEndpoint: String {
-    case pokemonList = "pokemon"
-    case pokemonDetails = "pokemonDetails"
+enum PokemonEndpoint {
+    case pokemonList
+    case pokemonDetails(Int)
+    
+    var rawValue: String {
+        switch self {
+        case .pokemonList:
+            return "pokemon"
+        case .pokemonDetails(let index):
+            return "pokemon/\(index)"
+        }
+    }
 }
 
 enum HttpMethod: String {

@@ -5,4 +5,12 @@
 //  Created by Luca Davanzo on 24/05/23.
 //
 
-import Foundation
+struct PokemonTypeDetail: Decodable {
+    let name: String
+    let url: String
+}
+
+struct PokemonType: Decodable {
+    let slot: Int
+    let type: PokemonTypeDetail
+}
