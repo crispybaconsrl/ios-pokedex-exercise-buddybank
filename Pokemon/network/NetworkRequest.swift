@@ -8,18 +8,19 @@
 import Foundation
 
 protocol NetworkRequestProtocol {
-    func sendRequest<T: Decodable>(url: URL, completion: @escaping (Result<T, Error>) -> Void)
+    func sendRequest<T: Decodable>(request: URLRequest, completion: @escaping (Result<T, Error>) -> Void)
 }
 
 class NetworkRequest: NetworkRequestProtocol {
+    
     private let urlSession: URLSession
     
     init(urlSession: URLSession = URLSession.shared) {
         self.urlSession = urlSession
     }
     
-    func sendRequest<T: Decodable>(url: URL, completion: @escaping (Result<T, Error>) -> Void) {
-         let task = urlSession.dataTask(with: url) { data, response, error in
+    func sendRequest<T: Decodable>(request: URLRequest, completion: @escaping (Result<T, Error>) -> Void) {
+        let task = self.urlSession.dataTask(with: request) { data, response, error in
              if let error = error {
                  completion(.failure(error))
                  return
