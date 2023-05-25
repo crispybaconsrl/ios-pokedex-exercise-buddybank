@@ -42,9 +42,9 @@ class PokemonListViewController: BaseViewController {
     private func setupCollectionView() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.minimumInteritemSpacing = 10
-        layout.minimumLineSpacing = 10
-        let margin: CGFloat = 10
+        layout.minimumInteritemSpacing = AppTheme.shared.margin
+        layout.minimumLineSpacing = AppTheme.shared.margin
+        let margin: CGFloat = AppTheme.shared.margin
         self.collectionView = PokemonCollectionView(frame: .zero, collectionViewLayout: layout)
         let itemSize = (self.view.bounds.width - (self.itemsPerRow + 1) * margin) / self.itemsPerRow
         
@@ -116,7 +116,7 @@ extension PokemonListViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let collectionViewWidth = self.collectionView.bounds.width
-        let margin: CGFloat = 10
+        let margin: CGFloat = AppTheme.shared.margin
         let cellSize = (collectionViewWidth - (self.itemsPerRow + 1) * margin) / self.itemsPerRow
         return CGSize(width: cellSize, height: cellSize)
     }

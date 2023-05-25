@@ -75,8 +75,8 @@ class PokemonDetailsView: UIView {
     private func setupSpritesCollectionView() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.minimumInteritemSpacing = 10
-        layout.minimumLineSpacing = 10
+        layout.minimumInteritemSpacing = AppTheme.shared.margin
+        layout.minimumLineSpacing = AppTheme.shared.margin
         layout.scrollDirection = .horizontal
         self.spritesCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         self.spritesCollectionView!.backgroundColor = .clear
@@ -88,21 +88,21 @@ class PokemonDetailsView: UIView {
     
     private func setupViewsContraints() {
         self.nameLabel.pin
-            .top(safeAreaInsets.top + 16)
+            .top(safeAreaInsets.top + AppTheme.shared.margin)
             .hCenter()
             .width(100%)
             .sizeToFit(.width)
         
         self.statsLabel.pin
-            .marginTop(16)
-            .horizontally(16)
+            .marginTop(AppTheme.shared.margin)
+            .horizontally(AppTheme.shared.margin)
             .sizeToFit(.width)
         
         if let sprites = self.spritesCollectionView {
             sprites.pin
                 .below(of: nameLabel)
-                .marginTop(16)
-                .horizontally(16)
+                .marginTop(AppTheme.shared.margin)
+                .horizontally(AppTheme.shared.margin)
                 .height(100)
             
             self.statsLabel.pin
