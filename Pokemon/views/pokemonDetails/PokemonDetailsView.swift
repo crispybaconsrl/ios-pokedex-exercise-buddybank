@@ -16,8 +16,8 @@ class PokemonDetailsView: UIView {
     
     private let nameLabel = UILabel()
     private var spritesCollectionView: UICollectionView?
-    private let statsLabel = UILabel()
-    private let typesLabel = UILabel()
+    private var infoCollectionView: UICollectionView?
+    
     private var details: PokemonDetail?
     private var sprites: [String] = []
     
@@ -41,9 +41,7 @@ class PokemonDetailsView: UIView {
             if let object = self.details?.sprites.convertObjectToDictionary() {
                 self.sprites = object.values.filter({$0 is String}) as! [String]
             }
-            self.nameLabel.text = details?.name ?? "No name"
-            self.statsLabel.text = details?.getStatisticNames().joined(separator: ",") ?? "-"
-            self.typesLabel.text = details?.getTypeNames().joined(separator: ",") ?? "-"
+            self.nameLabel.text = details?.name.uppercased() ?? "No name"
             self.setupUI()
             self.spritesCollectionView?.reloadData()
         }
@@ -58,23 +56,8 @@ class PokemonDetailsView: UIView {
         self.addSubview(self.nameLabel)
     }
     
-    private func setupStatisticsLabel() {
-        self.statsLabel.numberOfLines = 0
-        self.statsLabel.font = UIFont.systemFont(ofSize: 16)
-        self.statsLabel.textColor = .black
-        self.statsLabel.backgroundColor = .green
-        self.addSubview(self.statsLabel)
-    }
-    
-    private func setupTypesLabel() {
-        self.typesLabel.numberOfLines = 0
-        self.typesLabel.font = UIFont.systemFont(ofSize: 16)
-        self.addSubview(self.typesLabel)
-    }
-    
     private func setupSpritesCollectionView() {
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
         layout.minimumInteritemSpacing = AppTheme.shared.margin
         layout.minimumLineSpacing = AppTheme.shared.margin
         layout.scrollDirection = .horizontal
@@ -86,6 +69,17 @@ class PokemonDetailsView: UIView {
         self.addSubview(self.spritesCollectionView!)
     }
     
+    private func setupInfoCollectionView() {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        self.infoCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        self.infoCollectionView!.backgroundColor = .clear
+        self.infoCollectionView!.delegate = self
+        self.infoCollectionView!.dataSource = self
+        self.infoCollectionView!.register(InfoCell.self, forCellWithReuseIdentifier: InfoCell.identifier)
+        self.addSubview(self.infoCollectionView!)
+    }
+    
     private func setupViewsContraints() {
         self.nameLabel.pin
             .top(safeAreaInsets.top + AppTheme.shared.margin)
@@ -93,27 +87,20 @@ class PokemonDetailsView: UIView {
             .width(100%)
             .sizeToFit(.width)
         
-        self.statsLabel.pin
-            .marginTop(AppTheme.shared.margin)
-            .horizontally(AppTheme.shared.margin)
-            .sizeToFit(.width)
-        
         if let sprites = self.spritesCollectionView {
             sprites.pin
-                .below(of: nameLabel)
+                .below(of: self.nameLabel)
                 .marginTop(AppTheme.shared.margin)
                 .horizontally(AppTheme.shared.margin)
                 .height(100)
-            
-            self.statsLabel.pin
-                .below(of: sprites)
+            if let info = self.infoCollectionView {
+                info.pin
+                    .below(of: sprites)
+                    .marginTop(AppTheme.shared.margin)
+                    .horizontally(AppTheme.shared.margin)
+                    .bottom()
+            }
         }
-        
-        self.typesLabel.pin
-            .below(of: statsLabel)
-            .marginTop(16)
-            .horizontally(16)
-            .sizeToFit(.width)
         
         self.layoutIfNeeded()
     }
@@ -121,8 +108,7 @@ class PokemonDetailsView: UIView {
     private func setupUI() {
         self.setupNameLabel()
         self.setupSpritesCollectionView()
-        self.setupStatisticsLabel()
-        self.setupTypesLabel()
+        self.setupInfoCollectionView()
         self.setupViewsContraints()
     }
     
@@ -135,14 +121,38 @@ extension PokemonDetailsView: UICollectionViewDelegate {
 extension PokemonDetailsView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.sprites.count
+        if (collectionView === self.spritesCollectionView) {
+            return self.sprites.count
+        }
+        switch section {
+        case 0: return self.details?.getStatisticNames().count ?? 0
+        case 1: return self.details?.getTypeNames().count ?? 0
+        default: return 0
+        }
+        
+    }
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        if (collectionView === self.spritesCollectionView) {
+            return 1
+        }
+        return 2
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-      
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SpriteCell", for: indexPath)
-        let spriteURL = self.sprites[indexPath.item]
+        if (collectionView === self.spritesCollectionView) {
+            return self.createImageCell(at: indexPath)
+        }
+        switch indexPath.section {
+        case 0: return self.createStatisticCell(at: indexPath)
+        case 1: return self.createTypeCell(at: indexPath)
+        default: return self.spritesCollectionView!.dequeueReusableCell(withReuseIdentifier: "SpriteCell", for: indexPath)
+        }
+    }
+    
+    private func createImageCell(at index: IndexPath) -> UICollectionViewCell {
+        let cell = self.spritesCollectionView!.dequeueReusableCell(withReuseIdentifier: "SpriteCell", for: index)
+        let spriteURL = self.sprites[index.item]
         
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -157,9 +167,39 @@ extension PokemonDetailsView: UICollectionViewDataSource {
                 }
             }
         }
-        cell.backgroundColor = .red
         return cell
     }
     
+    private func createStatisticCell(at index: IndexPath) -> UICollectionViewCell {
+        let text = self.details?.getStatisticNames()[index.item]
+        return self.createInfoCell(at: index, with: text)
+    }
+    
+    private func createTypeCell(at index: IndexPath) -> UICollectionViewCell {
+        let text = self.details?.getTypeNames()[index.item]
+        return self.createInfoCell(at: index, with: text)
+    }
+    
+    private func createInfoCell(at index: IndexPath, with text: String?) -> UICollectionViewCell {
+        let cell = self.infoCollectionView!.dequeueReusableCell(withReuseIdentifier: InfoCell.identifier, for: index)
+        if let infoCell = cell as? InfoCell {
+            infoCell.setup(title: text?.capitalized ?? "-")
+        }
+        return cell
+    }
+    
+}
+
+extension PokemonDetailsView: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let size: CGFloat = 60
+        if (collectionView === self.spritesCollectionView) {
+            return CGSize(width: size, height: size)
+        }
+        let width = self.bounds.width - 2 * AppTheme.shared.margin
+ 
+        return CGSize(width: width, height: size / 2)
+    }
     
 }
