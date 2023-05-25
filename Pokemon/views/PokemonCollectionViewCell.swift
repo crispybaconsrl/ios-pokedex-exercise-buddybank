@@ -19,22 +19,33 @@ class PokemonCollectionViewCell: UICollectionViewCell {
     // MARK: - Private properties -
     
     private var imageView: UIImageView?
+    private let radialGradientView = RadialGradientView()
     
     // MARK: - Constructors -
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = .red
-        self.layer.borderColor = UIColor.black.cgColor
-        self.layer.borderWidth = 2
-        self.imageView = UIImageView()
-        self.addSubview(self.imageView!)
-        self.imageView?.pin.all()
+        self.setupRadialGradientView()
+        self.setupImageView()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
+    
+    // MARK: - Private methods -
+    
+    private func setupRadialGradientView() {
+        self.addSubview(self.radialGradientView)
+        self.radialGradientView.pin.all()
+    }
+    
+    private func setupImageView() {
+        self.imageView = UIImageView()
+        self.addSubview(self.imageView!)
+        self.imageView?.pin.all()
+    }
+    
     
     // MARK: - Public methods -
     
