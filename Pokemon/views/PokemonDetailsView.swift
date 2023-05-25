@@ -18,6 +18,8 @@ class PokemonDetailsView: UIView {
     private var spritesCollectionView: UICollectionView?
     private let statsLabel = UILabel()
     private let typesLabel = UILabel()
+    private var details: PokemonDetail?
+    private var sprites: [String] = []
     
     // TODO show: name, images, stats and type.
     
@@ -25,23 +27,26 @@ class PokemonDetailsView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        //        self.setupUI()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        //        self.setupUI()
     }
     
     // MARK: - Public methods -
     
-    func setupWith(pokemon: PokemonDetail?) {
-        self.nameLabel.text = "pokemon.name"
-        self.statsLabel.text = "pokemon.getStatisticNames"
-        self.typesLabel.text = "pokemon.getTypeNames"
-        self.backgroundColor = .green
-        self.setupUI()
-        //        self.layoutIfNeeded()
+    func setupWith(details: PokemonDetail?) {
+        DispatchQueue.main.async {
+            self.details = details
+            if let object = self.details?.sprites.convertObjectToDictionary() {
+                self.sprites = object.values.filter({$0 is String}) as! [String]
+            }
+            self.nameLabel.text = details?.name ?? "No name"
+            self.statsLabel.text = details?.getStatisticNames().joined(separator: ",") ?? "-"
+            self.typesLabel.text = details?.getTypeNames().joined(separator: ",") ?? "-"
+            self.setupUI()
+            self.spritesCollectionView?.reloadData()
+        }
     }
     
     // MARK: - Private methods -
@@ -49,12 +54,15 @@ class PokemonDetailsView: UIView {
     private func setupNameLabel() {
         self.nameLabel.textAlignment = .center
         self.nameLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        self.nameLabel.textColor = .black
         self.addSubview(self.nameLabel)
     }
     
     private func setupStatisticsLabel() {
         self.statsLabel.numberOfLines = 0
         self.statsLabel.font = UIFont.systemFont(ofSize: 16)
+        self.statsLabel.textColor = .black
+        self.statsLabel.backgroundColor = .green
         self.addSubview(self.statsLabel)
     }
     
@@ -111,10 +119,6 @@ class PokemonDetailsView: UIView {
     }
     
     private func setupUI() {
-        self.nameLabel.text = "pokemon.name"
-        self.statsLabel.text = "pokemon.getStatisticNames"
-        self.typesLabel.text = "pokemon.getTypeNames"
-        
         self.setupNameLabel()
         self.setupSpritesCollectionView()
         self.setupStatisticsLabel()
@@ -130,19 +134,15 @@ extension PokemonDetailsView: UICollectionViewDelegate {
 
 extension PokemonDetailsView: UICollectionViewDataSource {
     
-    static var x = 1;
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 20
+        return self.sprites.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
       
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SpriteCell", for: indexPath)
-        
-        let spriteURL = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/\(PokemonDetailsView.x).png"
-        PokemonDetailsView.x += 1;
+        let spriteURL = self.sprites[indexPath.item]
         
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -157,6 +157,7 @@ extension PokemonDetailsView: UICollectionViewDataSource {
                 }
             }
         }
+        cell.backgroundColor = .red
         return cell
     }
     

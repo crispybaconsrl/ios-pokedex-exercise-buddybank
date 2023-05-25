@@ -21,7 +21,6 @@ class PokemonListViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Pokemon Dek"
-        print("PokemonListViewController")
         if let viewModel = self.viewModel as? PokemonListViewModel {
             viewModel.fetchData()
         }
@@ -47,7 +46,7 @@ class PokemonListViewController: BaseViewController {
         layout.minimumLineSpacing = 10
         let margin: CGFloat = 10
         self.collectionView = PokemonCollectionView(frame: .zero, collectionViewLayout: layout)
-        let itemSize = (collectionView.bounds.width - (self.itemsPerRow + 1) * margin) / self.itemsPerRow
+        let itemSize = (self.view.bounds.width - (self.itemsPerRow + 1) * margin) / self.itemsPerRow
         
         layout.sectionInset = UIEdgeInsets(top: margin, left: margin, bottom: margin, right: margin)
         layout.itemSize = CGSize(width: itemSize, height: itemSize)
@@ -75,9 +74,6 @@ extension PokemonListViewController: UISearchBarDelegate {
         print(searchText)
     }
     
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        print("clicked")
-    }
 }
 
 extension PokemonListViewController: UICollectionViewDataSource {
@@ -103,15 +99,17 @@ extension PokemonListViewController: UICollectionViewDataSource {
 
 extension PokemonListViewController: UICollectionViewDelegate {
     
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-         if (indexPath.row == 29 ) {
-             print("load more")
-         }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let viewModel = self.viewModel as? PokemonListViewModel,
+           let pokemon = viewModel.getPokemon(at: indexPath.item) {
+            DispatchQueue.main.async {
+                self.coordinator?.showDetails(of: pokemon)
+            }
+        } else {
+            // TODO show error
+        }
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-    }
 }
 
 extension PokemonListViewController: UICollectionViewDelegateFlowLayout {

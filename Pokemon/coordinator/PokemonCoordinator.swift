@@ -21,8 +21,12 @@ class PokemonCoordinator: Coordinator {
         self.showViewController(PokemonListViewController.self, PokemonListViewModel.self)
     }
     
-    func showDetails() {
-        self.showViewController(PokemonDetailsViewController.self, PokemonDetailsViewModel.self)
+    func showDetails(of pokemon: Pokemon) {
+        let viewController = PokemonDetailsViewController.instantiate()
+        viewController.coordinator = self
+        viewController.viewModel = PokemonDetailsViewModel.instantiate()
+        (viewController.viewModel as? PokemonDetailsViewModel)?.setup(with: pokemon)
+        self.navigationController.pushViewController(viewController, animated: true)
     }
     
     // MARK: - Private methods -

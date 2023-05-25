@@ -13,22 +13,13 @@ class PokemonListViewModel: BaseViewModel {
     
     required init() {
         super.init()
-        print("list view model")
-        
-        let request = PokemonRequest()
-        request.getPokemonDetails(pokemonId: 1) { result in
-            switch result {
-            case .success(let data):
-                print("Received data: \(data)")
-                print("Names: \(data.getTypeNames())")
-                print("Stats: \(data.getStatisticNames())")
-                
-                
-            case .failure(let error):
-                print("Request error: \(error)")
-            }
+    }
+    
+    func getPokemon(at index: Int) -> Pokemon? {
+        if let pokemons = self.pokemons, pokemons.results.count > index - 1 {
+            return pokemons.results[index]
         }
-        
+        return nil
     }
     
 }
@@ -42,7 +33,7 @@ extension PokemonListViewModel: BaseViewModelDataSource {
 }
 
 extension PokemonListViewModel: DataFetcher {
-   
+    
     func fetchData() {
         let request = PokemonRequest()
         request.getPokemonList { result in

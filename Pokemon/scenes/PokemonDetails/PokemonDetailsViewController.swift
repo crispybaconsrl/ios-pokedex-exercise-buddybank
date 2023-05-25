@@ -10,7 +10,7 @@ import UIKit
 import PinLayout
 
 class PokemonDetailsViewController: BaseViewController {
-
+    
     // MARK: - Private properties -
     
     private var pokemonDetailsView: PokemonDetailsView?
@@ -18,7 +18,13 @@ class PokemonDetailsViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Pokemon Details"
-        print("PokemonDetailsViewController")
+        self.view.backgroundColor = .white
+        
+        if let viewModel = self.viewModel as? PokemonDetailsViewModel {
+            viewModel.delegate = self
+            viewModel.fetchData()
+        }
+        // TODO show loader until reloadNeeded
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -27,11 +33,18 @@ class PokemonDetailsViewController: BaseViewController {
         self.pokemonDetailsView?.attach(on: self.view)
         self.pokemonDetailsView?.pin.all()
     }
-
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        self.pokemonDetailsView?.setupWith(pokemon: nil)
-    }
+}
 
+extension PokemonDetailsViewController: BaseViewModelDelegate {
+    
+    func reloadNeeded() {
+        if let vm = self.viewModel as? PokemonDetailsViewModel,
+           let data: PokemonDetail = vm.getData() {
+//            self.title = data.name.capitalized
+            self.pokemonDetailsView?.setupWith(details: data)
+        }
+        // TODO hide loader
+    }
+    
 }
