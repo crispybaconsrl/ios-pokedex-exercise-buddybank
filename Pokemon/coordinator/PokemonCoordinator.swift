@@ -18,8 +18,7 @@ class PokemonCoordinator: Coordinator {
     // MARK: - Public methods -
     
     func start() {
-//        self.showViewController(PokemonListViewController.self, PokemonListViewModel.self)
-        self.showViewController(PokemonDetailsViewController.self, PokemonDetailsViewModel.self)
+        self.showViewController(PokemonListViewController.self, PokemonListViewModel.self)
     }
     
     func showDetails() {

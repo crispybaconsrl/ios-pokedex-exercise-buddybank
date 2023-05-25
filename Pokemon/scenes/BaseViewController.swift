@@ -16,7 +16,7 @@ class BaseViewController: UIViewController, BaseViewControllerProtocol {
     // MARK: - Variables -
     
     weak var coordinator: PokemonCoordinator?
-    weak var viewModel: BaseViewModel?
+    var viewModel: BaseViewModel?
     lazy var noDataView: NoDataView = NoDataView()
     
     // MARK: - Class methods -

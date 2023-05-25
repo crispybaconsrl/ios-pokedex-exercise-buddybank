@@ -7,7 +7,26 @@
 
 import Foundation
 
+@objc
+protocol DataFetcher {
+    @objc func fetchData()
+}
+
+@objc
+protocol BaseViewModelDelegate {
+    @objc optional func reloadNeeded()
+}
+
+protocol BaseViewModelDataSource {
+    associatedtype DataType: Decodable
+    func getData() -> DataType?
+}
+
+
 class BaseViewModel: NSObject {
+    
+    var delegate: BaseViewModelDelegate?
+    var dataSource: (any BaseViewModelDataSource)?
     
     required override init() {
     }
@@ -19,4 +38,5 @@ class BaseViewModel: NSObject {
         }
         return BaseViewModel()
     }
+    
 }

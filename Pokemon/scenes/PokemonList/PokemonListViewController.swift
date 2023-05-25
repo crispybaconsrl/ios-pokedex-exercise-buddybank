@@ -14,6 +14,7 @@ class PokemonListViewController: BaseViewController {
     // MARK: - Private properties -
     
     private var collectionView: PokemonCollectionView!
+    private let itemsPerRow: CGFloat = 4
     
     // MARK: - View controller lifecycle -
     
@@ -21,11 +22,15 @@ class PokemonListViewController: BaseViewController {
         super.viewDidLoad()
         self.title = "Pokemon Dek"
         print("PokemonListViewController")
+        if let viewModel = self.viewModel as? PokemonListViewModel {
+            viewModel.fetchData()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.setupUI()
+        self.viewModel?.delegate = self
     }
     
     // MARK: - Private methods -
@@ -42,7 +47,7 @@ class PokemonListViewController: BaseViewController {
         layout.minimumLineSpacing = 10
         let margin: CGFloat = 10
         self.collectionView = PokemonCollectionView(frame: .zero, collectionViewLayout: layout)
-        let itemSize = (collectionView.bounds.width - 3 * margin) / 2
+        let itemSize = (collectionView.bounds.width - (self.itemsPerRow + 1) * margin) / self.itemsPerRow
         
         layout.sectionInset = UIEdgeInsets(top: margin, left: margin, bottom: margin, right: margin)
         layout.itemSize = CGSize(width: itemSize, height: itemSize)
@@ -77,12 +82,19 @@ extension PokemonListViewController: UISearchBarDelegate {
 
 extension PokemonListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 30
+        if let vm = self.viewModel as? PokemonListViewModel,
+            let data: PokemonList = vm.getData() {
+            return data.results.count
+        }
+        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = self.collectionView.getCell(at: indexPath)
-        // TODO configure
+        if let vm = self.viewModel as? PokemonListViewModel,
+            let data: PokemonList = vm.getData() {
+            cell.setup(with: data.results[indexPath.item])
+        }
         return cell
     }
     
@@ -106,7 +118,8 @@ extension PokemonListViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let collectionViewWidth = self.collectionView.bounds.width
-        let cellSize = (collectionViewWidth - 30) / 2
+        let margin: CGFloat = 10
+        let cellSize = (collectionViewWidth - (self.itemsPerRow + 1) * margin) / self.itemsPerRow
         return CGSize(width: cellSize, height: cellSize)
     }
     
@@ -130,3 +143,12 @@ extension PokemonListViewController: UICollectionViewDataSourcePrefetching {
     }
 }
 
+extension PokemonListViewController: BaseViewModelDelegate {
+    
+    func reloadNeeded() {
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
+    }
+    
+}
