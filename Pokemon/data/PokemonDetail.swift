@@ -5,7 +5,6 @@
 //  Created by Luca Davanzo on 24/05/23.
 //
 
-
 struct PokemonDetail: Decodable {
     
     // MARK: - Public variables -

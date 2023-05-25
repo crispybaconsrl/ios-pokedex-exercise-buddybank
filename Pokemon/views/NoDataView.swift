@@ -30,11 +30,7 @@ class NoDataView: UIView {
     
     override func attach(on parent: UIView) {
         super.attach(on: parent)
-        self.pin
-            .topLeft(to: parent.anchor.topLeft)
-            .topRight(to: parent.anchor.topRight)
-            .bottomRight(to: parent.anchor.bottomRight)
-            .bottomLeft(to: parent.anchor.bottomLeft)
+        self.pin.all()
         self.setupView()
     }
     

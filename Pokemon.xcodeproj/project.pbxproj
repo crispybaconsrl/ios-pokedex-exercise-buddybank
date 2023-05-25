@@ -13,6 +13,8 @@
 		E26200402A1F515F00860F38 /* PinnableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E262003F2A1F515F00860F38 /* PinnableView.swift */; };
 		E26200422A1F5AC600860F38 /* PokemonCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26200412A1F5AC600860F38 /* PokemonCollectionViewCell.swift */; };
 		E26200442A1F64DA00860F38 /* PokemonCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26200432A1F64DA00860F38 /* PokemonCollectionHeaderView.swift */; };
+		E26200462A1F6CBA00860F38 /* PokemonDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26200452A1F6CBA00860F38 /* PokemonDetailsView.swift */; };
+		E26200482A1F76D800860F38 /* Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26200472A1F76D800860F38 /* Downloader.swift */; };
 		E2745C2C2A1CE5FB00A3DC93 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2745C2B2A1CE5FB00A3DC93 /* AppDelegate.swift */; };
 		E2745C2E2A1CE5FB00A3DC93 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2745C2D2A1CE5FB00A3DC93 /* SceneDelegate.swift */; };
 		E2745C352A1CE5FE00A3DC93 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2745C342A1CE5FE00A3DC93 /* Assets.xcassets */; };
@@ -74,6 +76,8 @@
 		E262003F2A1F515F00860F38 /* PinnableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinnableView.swift; sourceTree = "<group>"; };
 		E26200412A1F5AC600860F38 /* PokemonCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonCollectionViewCell.swift; sourceTree = "<group>"; };
 		E26200432A1F64DA00860F38 /* PokemonCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonCollectionHeaderView.swift; sourceTree = "<group>"; };
+		E26200452A1F6CBA00860F38 /* PokemonDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonDetailsView.swift; sourceTree = "<group>"; };
+		E26200472A1F76D800860F38 /* Downloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Downloader.swift; sourceTree = "<group>"; };
 		E2745C282A1CE5FB00A3DC93 /* Pokemon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pokemon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2745C2B2A1CE5FB00A3DC93 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E2745C2D2A1CE5FB00A3DC93 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -233,6 +237,7 @@
 				E26200412A1F5AC600860F38 /* PokemonCollectionViewCell.swift */,
 				E262003F2A1F515F00860F38 /* PinnableView.swift */,
 				E26200432A1F64DA00860F38 /* PokemonCollectionHeaderView.swift */,
+				E26200452A1F6CBA00860F38 /* PokemonDetailsView.swift */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -320,6 +325,7 @@
 				E2C0117B2A1E394600DAD358 /* PagedResponse.swift */,
 				E2C0117D2A1E3B3F00DAD358 /* NetworkHelper.swift */,
 				E2C0117F2A1E3DBD00DAD358 /* PokemonRequest.swift */,
+				E26200472A1F76D800860F38 /* Downloader.swift */,
 			);
 			path = network;
 			sourceTree = "<group>";
@@ -571,6 +577,7 @@
 				E262003E2A1F50C900860F38 /* PokemonCollectionView.swift in Sources */,
 				E2C011822A1E42CE00DAD358 /* PokemonList.swift in Sources */,
 				E26200442A1F64DA00860F38 /* PokemonCollectionHeaderView.swift in Sources */,
+				E26200462A1F6CBA00860F38 /* PokemonDetailsView.swift in Sources */,
 				E2745C602A1CE66700A3DC93 /* PokemonListViewController.swift in Sources */,
 				E2C0118A2A1E531A00DAD358 /* PokemonStatistic.swift in Sources */,
 				E2C011862A1E48EC00DAD358 /* PokemonType.swift in Sources */,
@@ -581,6 +588,7 @@
 				E2C011842A1E480200DAD358 /* PokemonDetail.swift in Sources */,
 				E2C0117A2A1E392600DAD358 /* Pokemon.swift in Sources */,
 				E2745C2E2A1CE5FB00A3DC93 /* SceneDelegate.swift in Sources */,
+				E26200482A1F76D800860F38 /* Downloader.swift in Sources */,
 				E2C0116F2A1CF66000DAD358 /* PokemonDetailsViewModel.swift in Sources */,
 				E2C011712A1CF68200DAD358 /* PokemonListViewModel.swift in Sources */,
 				E2C011802A1E3DBD00DAD358 /* PokemonRequest.swift in Sources */,

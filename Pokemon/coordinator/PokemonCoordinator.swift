@@ -18,7 +18,8 @@ class PokemonCoordinator: Coordinator {
     // MARK: - Public methods -
     
     func start() {
-        self.showViewController(PokemonListViewController.self, PokemonListViewModel.self)
+//        self.showViewController(PokemonListViewController.self, PokemonListViewModel.self)
+        self.showViewController(PokemonDetailsViewController.self, PokemonDetailsViewModel.self)
     }
     
     func showDetails() {
@@ -31,7 +32,7 @@ class PokemonCoordinator: Coordinator {
         let viewController = viewControllerType.instantiate()
         viewController.coordinator = self
         viewController.viewModel = viewModelType.instantiate()
-        self.navigationController.pushViewController(viewController, animated: false)
+        self.navigationController.pushViewController(viewController, animated: true)
     }
     
 }

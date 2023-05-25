@@ -19,8 +19,7 @@ class PokemonListViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .red
-        self.title = "List"
+        self.title = "Pokemon Dek"
         print("PokemonListViewController")
     }
     
@@ -78,7 +77,7 @@ extension PokemonListViewController: UISearchBarDelegate {
 
 extension PokemonListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1000
+        return 30
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -90,9 +89,17 @@ extension PokemonListViewController: UICollectionViewDataSource {
 }
 
 
-extension PokemonListViewController: UICollectionViewDelegate{
+extension PokemonListViewController: UICollectionViewDelegate {
     
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+         if (indexPath.row == 29 ) {
+             print("load more")
+         }
+    }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+    }
 }
 
 extension PokemonListViewController: UICollectionViewDelegateFlowLayout {
