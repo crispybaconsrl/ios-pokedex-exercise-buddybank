@@ -10,7 +10,7 @@ import UIKit
 
 import PinLayout
 
-class NoDataView: UIView, Anchor {
+class NoDataView: UIView {
     
     // MARK: - Private properties -
     
@@ -28,8 +28,8 @@ class NoDataView: UIView, Anchor {
     
     // MARK: - Public methods -
     
-    func attach(on parent: UIView) {
-        parent.addSubview(self)
+    override func attach(on parent: UIView) {
+        super.attach(on: parent)
         self.pin
             .topLeft(to: parent.anchor.topLeft)
             .topRight(to: parent.anchor.topRight)
@@ -38,11 +38,6 @@ class NoDataView: UIView, Anchor {
         self.setupView()
     }
     
-    func detach(from parent: UIView) {
-        if parent.subviews.contains(self) {
-            self.removeFromSuperview()
-        }
-    }
     
     // MARK: - Private methods -
     
