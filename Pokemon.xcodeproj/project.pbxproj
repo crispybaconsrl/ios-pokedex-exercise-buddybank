@@ -19,6 +19,7 @@
 		E262004C2A1FB2F700860F38 /* NSObject+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E262004B2A1FB2F700860F38 /* NSObject+extension.swift */; };
 		E262004E2A1FB91100860F38 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = E262004D2A1FB91100860F38 /* Theme.swift */; };
 		E26200532A1FC4D300860F38 /* InfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26200522A1FC4D300860F38 /* InfoCell.swift */; };
+		E26200552A20910900860F38 /* SectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26200542A20910900860F38 /* SectionHeaderView.swift */; };
 		E2745C2C2A1CE5FB00A3DC93 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2745C2B2A1CE5FB00A3DC93 /* AppDelegate.swift */; };
 		E2745C2E2A1CE5FB00A3DC93 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2745C2D2A1CE5FB00A3DC93 /* SceneDelegate.swift */; };
 		E2745C352A1CE5FE00A3DC93 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2745C342A1CE5FE00A3DC93 /* Assets.xcassets */; };
@@ -86,6 +87,7 @@
 		E262004B2A1FB2F700860F38 /* NSObject+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+extension.swift"; sourceTree = "<group>"; };
 		E262004D2A1FB91100860F38 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		E26200522A1FC4D300860F38 /* InfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoCell.swift; sourceTree = "<group>"; };
+		E26200542A20910900860F38 /* SectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderView.swift; sourceTree = "<group>"; };
 		E2745C282A1CE5FB00A3DC93 /* Pokemon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pokemon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2745C2B2A1CE5FB00A3DC93 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E2745C2D2A1CE5FB00A3DC93 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -197,6 +199,7 @@
 			children = (
 				E26200452A1F6CBA00860F38 /* PokemonDetailsView.swift */,
 				E26200522A1FC4D300860F38 /* InfoCell.swift */,
+				E26200542A20910900860F38 /* SectionHeaderView.swift */,
 			);
 			path = pokemonDetails;
 			sourceTree = "<group>";
@@ -616,6 +619,7 @@
 				E26200462A1F6CBA00860F38 /* PokemonDetailsView.swift in Sources */,
 				E2745C602A1CE66700A3DC93 /* PokemonListViewController.swift in Sources */,
 				E2C0118A2A1E531A00DAD358 /* PokemonStatistic.swift in Sources */,
+				E26200552A20910900860F38 /* SectionHeaderView.swift in Sources */,
 				E2C011862A1E48EC00DAD358 /* PokemonType.swift in Sources */,
 				E2C011882A1E4BA400DAD358 /* PokemonSprites.swift in Sources */,
 				E2C011632A1CEAB300DAD358 /* PokemonDetailsViewController.swift in Sources */,

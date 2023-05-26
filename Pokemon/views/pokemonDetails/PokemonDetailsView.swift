@@ -66,6 +66,9 @@ class PokemonDetailsView: UIView {
         self.spritesCollectionView!.delegate = self
         self.spritesCollectionView!.dataSource = self
         self.spritesCollectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "SpriteCell")
+        self.spritesCollectionView!.register(SectionHeaderView.self,
+                                             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SectionHeaderView.identifier)
+        
         self.addSubview(self.spritesCollectionView!)
     }
     
@@ -77,6 +80,8 @@ class PokemonDetailsView: UIView {
         self.infoCollectionView!.delegate = self
         self.infoCollectionView!.dataSource = self
         self.infoCollectionView!.register(InfoCell.self, forCellWithReuseIdentifier: InfoCell.identifier)
+        self.infoCollectionView!.register(SectionHeaderView.self,
+                                          forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SectionHeaderView.identifier)
         self.addSubview(self.infoCollectionView!)
     }
     
@@ -193,13 +198,45 @@ extension PokemonDetailsView: UICollectionViewDataSource {
 extension PokemonDetailsView: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let size: CGFloat = 60
+        let size: CGFloat = 80
         if (collectionView === self.spritesCollectionView) {
             return CGSize(width: size, height: size)
         }
         let width = self.bounds.width - 2 * AppTheme.shared.margin
- 
+        
         return CGSize(width: width, height: size / 2)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        if kind == UICollectionView.elementKindSectionHeader {
+            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                             withReuseIdentifier: SectionHeaderView.identifier,
+                                                                             for: indexPath) as! SectionHeaderView
+            
+            if (collectionView === self.spritesCollectionView) {
+                headerView.setTitle("Sprites")
+                return headerView
+            }
+            
+            switch indexPath.section {
+            case 0:
+                headerView.setTitle("Statistics")
+            case 1:
+                headerView.setTitle("Types")
+            default:
+                break
+            }
+            return headerView
+        }
+        
+        return UICollectionReusableView()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        if (collectionView === self.spritesCollectionView) {
+            return .zero
+        }
+        return CGSize(width: collectionView.bounds.width, height: 40)
     }
     
 }
