@@ -43,9 +43,9 @@ extension PokemonListViewModel: DataFetcher {
                 let list = self?.pokemons?.results ?? []
                 self?.pokemons = data
                 self?.pokemons?.results = list + data.results
-                self?.delegate?.reloadNeeded?()
+                self?.delegate?.reloadNeeded()
             case .failure(let error):
-                print("Request error: \(error)")
+                self?.delegate?.didReceiveError(error: error)
             }
             self?.isLoading = false
         }

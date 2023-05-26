@@ -45,9 +45,9 @@ extension PokemonDetailsViewModel: DataFetcher {
                 switch result {
                 case .success(let data):
                     self?.details = data
-                    self?.delegate?.reloadNeeded?()
+                    self?.delegate?.reloadNeeded()
                 case .failure(let error):
-                    print("Request error: \(error)")
+                    self?.delegate?.didReceiveError(error: error)
                 }
             }
         } else {

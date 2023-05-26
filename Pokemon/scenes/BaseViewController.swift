@@ -42,6 +42,7 @@ class BaseViewController: UIViewController, BaseViewControllerProtocol {
     // MARK: - Public methods -
     
     func displayNoDataView(_ show: Bool) {
+        self.view.subviews.forEach { $0.isHidden = show }
         self.noDataView.isHidden = !show
         if show {
             self.noDataView.attach(on: self.view)

@@ -43,15 +43,13 @@ class NoDataView: UIView {
             self.addSubview(self.textView!)
             self.textView?.font = UIFont.systemFont(ofSize: 20)
             self.textView?.text = "No data available"
-            self.textView?.textColor = .black
+            self.textView?.textColor = AppTheme.shared.colors.secondary
             self.textView?.textAlignment = .center
             self.textView?.pin
-                .top(100)
-                .height(80)
-                .left(to: self.edge.left)
-                .right(to: self.edge.right)
+                .vCenter()
+                .hCenter()
+                .sizeToFit()
                 .margin(20)
-            self.textView?.backgroundColor = .yellow
         }
 
     }

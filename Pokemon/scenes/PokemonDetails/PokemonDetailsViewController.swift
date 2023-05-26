@@ -47,4 +47,10 @@ extension PokemonDetailsViewController: BaseViewModelDelegate {
         // TODO hide loader
     }
     
+    func didReceiveError(error: Error) {
+        DispatchQueue.main.async {
+            self.displayNoDataView(true)
+        }
+    }
+    
 }

@@ -7,23 +7,30 @@
 
 import Foundation
 
-@objc
 protocol DataFetcher {
     var isLoading: Bool { get set }
-    @objc func fetchData(url: String?)
-    @objc optional func loadMore()
+    func fetchData(url: String?)
+    func loadMore()
 }
 
-@objc
+extension DataFetcher {
+    func loadMore() {}
+}
+
 protocol BaseViewModelDelegate {
-    @objc optional func reloadNeeded()
+    func reloadNeeded()
+    func didReceiveError(error: Error)
+}
+
+extension BaseViewModelDelegate {
+    func reloadNeeded() {}
+    func didReceiveError(error: NetworkError) {}
 }
 
 protocol BaseViewModelDataSource {
     associatedtype DataType: Decodable
     func getData() -> DataType?
 }
-
 
 class BaseViewModel: NSObject {
     

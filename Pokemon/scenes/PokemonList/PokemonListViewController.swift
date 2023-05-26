@@ -182,4 +182,10 @@ extension PokemonListViewController: BaseViewModelDelegate {
         }
     }
     
+    func didReceiveError(error: Error) {
+        DispatchQueue.main.async {
+            self.displayNoDataView(true)
+        }
+    }
+    
 }
