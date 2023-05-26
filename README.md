@@ -2,7 +2,7 @@
 
 This project use [PokeAPI](https://pokeapi.co) to retrieve pokemon dek and display it on a collection view.
 
-To implement this project I've used MVVM+Coordinator path as requested, without using 
+To implement this project I've used MVVM+Coordinator path as requested, without using any Xcode UI facility (xib, storyboards).
 
 
 ### Basic tasks
@@ -29,3 +29,13 @@ To implement this project I've used MVVM+Coordinator path as requested, without 
 - ❌ Add some accessibility features
 - ❌ Write Unit and UI Tests:  
 	**Unfortunately I didn't have time to implement the tests. again, they can be implemented quite quickly and correctly thanks to dependency injection**
+	
+	
+### Plus tasks
+
+- ✅ Theme manager:  
+	I implemented a basic theme manager which help programmer to set app colors and sizes. Is intended to be a demonstration, it could be definitely improved managing fonts/font sizes too.
+- ❌ Translations:  
+	**To develop a perfect app I should manage language translations, creating Localizable.strings and filling with related key/value**
+- ❌ Search on pokemons:  
+	**I add a search component using UICollectionReusableView for UICollectionView.elementKindSectionHeader. The flow is quite completed, there is a bug on which I have no time to investigate (search bar resign first responder once I trigger reloadData(). I could have tried using 2 sections, first one for the searchBar, second one for pokemon items and reload the second one section only**
