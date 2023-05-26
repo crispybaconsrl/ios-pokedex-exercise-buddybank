@@ -40,7 +40,6 @@ class PokemonCollectionView: UICollectionView {
     
     override func attach(on parent: UIView) {
         super.attach(on: parent)
-        self.pin.all()
     }
     
     // MARK: - Private methods -
