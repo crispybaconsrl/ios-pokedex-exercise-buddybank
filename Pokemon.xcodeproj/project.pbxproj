@@ -32,6 +32,7 @@
 		E2745C662A1CE6A500A3DC93 /* PokemonCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2745C652A1CE6A500A3DC93 /* PokemonCoordinator.swift */; };
 		E28AF9C32A20C4BA00903C42 /* PinLayout in Frameworks */ = {isa = PBXBuildFile; productRef = E28AF9C22A20C4BA00903C42 /* PinLayout */; };
 		E2A9B6AA2A20E62600C49D12 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A9B6A92A20E62600C49D12 /* UIView+Extension.swift */; };
+		E2A9B6AD2A20F5C200C49D12 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = E2A9B6AC2A20F5C200C49D12 /* Kingfisher */; };
 		E2C011632A1CEAB300DAD358 /* PokemonDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C011622A1CEAB300DAD358 /* PokemonDetailsViewController.swift */; };
 		E2C0116B2A1CF5BC00DAD358 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C0116A2A1CF5BC00DAD358 /* BaseViewModel.swift */; };
 		E2C0116F2A1CF66000DAD358 /* PokemonDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C0116E2A1CF66000DAD358 /* PokemonDetailsViewModel.swift */; };
@@ -121,6 +122,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2A9B6AD2A20F5C200C49D12 /* Kingfisher in Frameworks */,
 				E28AF9C32A20C4BA00903C42 /* PinLayout in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -355,6 +357,7 @@
 			name = Pokemon;
 			packageProductDependencies = (
 				E28AF9C22A20C4BA00903C42 /* PinLayout */,
+				E2A9B6AC2A20F5C200C49D12 /* Kingfisher */,
 			);
 			productName = Pokemon;
 			productReference = E2745C282A1CE5FB00A3DC93 /* Pokemon.app */;
@@ -430,6 +433,7 @@
 			mainGroup = E2745C1F2A1CE5FB00A3DC93;
 			packageReferences = (
 				E28AF9C12A20C4BA00903C42 /* XCRemoteSwiftPackageReference "PinLayout" */,
+				E2A9B6AB2A20F5C200C49D12 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = E2745C292A1CE5FB00A3DC93 /* Products */;
 			projectDirPath = "";
@@ -852,6 +856,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		E2A9B6AB2A20F5C200C49D12 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -859,6 +871,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E28AF9C12A20C4BA00903C42 /* XCRemoteSwiftPackageReference "PinLayout" */;
 			productName = PinLayout;
+		};
+		E2A9B6AC2A20F5C200C49D12 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E2A9B6AB2A20F5C200C49D12 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

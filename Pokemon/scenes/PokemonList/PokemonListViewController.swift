@@ -7,6 +7,7 @@
 
 import UIKit
 
+import Kingfisher
 import PinLayout
 
 class PokemonListViewController: BaseViewController {
@@ -187,7 +188,11 @@ extension PokemonListViewController: UICollectionViewDelegateFlowLayout {
 
 extension PokemonListViewController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-        
+        if let viewModel = self.viewModel as? PokemonListViewModel, !self.isFiltering {
+            let urlsToPrefetch = viewModel.getPokemonList()
+                .compactMap({ $0.imageUrl != nil ? URL(string: $0.imageUrl!) : nil })
+            ImagePrefetcher(urls: urlsToPrefetch).start()
+        }
     }
 }
 
