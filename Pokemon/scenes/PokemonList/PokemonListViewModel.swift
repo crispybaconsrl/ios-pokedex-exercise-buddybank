@@ -10,6 +10,7 @@ import Foundation
 class PokemonListViewModel: BaseViewModel {
     
     private var pokemons: PokemonList?
+    private var filteredList: [Pokemon] = []
     
     required init() {
         super.init()
@@ -20,6 +21,21 @@ class PokemonListViewModel: BaseViewModel {
             return pokemons.results[index]
         }
         return nil
+    }
+    
+    func getPokemonList() -> [Pokemon] {
+        return self.filteredList
+    }
+    
+    func filterBy(text: String) {
+        if text.isEmpty {
+            self.filteredList = self.pokemons?.results ?? []
+        } else {
+            self.filteredList = self.pokemons?.results.filter { pokemon in
+                pokemon.name.range(of: text, options: .caseInsensitive) != nil
+            } ?? []
+        }
+        self.delegate?.reloadNeeded()
     }
     
 }
@@ -43,6 +59,7 @@ extension PokemonListViewModel: DataFetcher {
                 let list = self?.pokemons?.results ?? []
                 self?.pokemons = data
                 self?.pokemons?.results = list + data.results
+                self?.filteredList = self?.pokemons?.results ?? []
                 self?.delegate?.reloadNeeded()
             case .failure(let error):
                 self?.delegate?.didReceiveError(error: error)

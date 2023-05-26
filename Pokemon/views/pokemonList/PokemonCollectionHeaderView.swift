@@ -26,6 +26,7 @@ class PokemonCollectionHeaderView: UICollectionReusableView {
         super.init(frame: frame)
         self.searchBar.searchBarStyle = .minimal
         self.searchBar.backgroundColor = .white
+        self.searchBar.returnKeyType = .done
         self.addSubview(self.searchBar)
         self.searchBar.pin.all()
     }
@@ -33,6 +34,7 @@ class PokemonCollectionHeaderView: UICollectionReusableView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
 }
 
 

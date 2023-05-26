@@ -15,6 +15,7 @@ class PokemonListViewController: BaseViewController {
     
     private var collectionView: PokemonCollectionView!
     private let itemsPerRow: CGFloat = 4
+    private var isFiltering: Bool = false
     
     // MARK: - View controller lifecycle -
     
@@ -80,7 +81,18 @@ extension PokemonListViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         print(searchText)
-        // TODO view model filter by text
+        if let vm = self.viewModel as? PokemonListViewModel {
+            vm.filterBy(text: searchText)
+            self.isFiltering = true
+        } else {
+            self.isFiltering = false
+        }
+        self.isFiltering = !searchText.isEmpty
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        self.isFiltering = false
+        searchBar.resignFirstResponder()
     }
     
 }
@@ -88,18 +100,17 @@ extension PokemonListViewController: UISearchBarDelegate {
 extension PokemonListViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let vm = self.viewModel as? PokemonListViewModel,
-           let data: PokemonList = vm.getData() {
-            return data.results.count
+        if let vm = self.viewModel as? PokemonListViewModel {
+            return vm.getPokemonList().count
         }
         return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = self.collectionView.getCell(at: indexPath)
-        if let vm = self.viewModel as? PokemonListViewModel,
-           let data: PokemonList = vm.getData() {
-            cell.setup(with: data.results[indexPath.item])
+        if let vm = self.viewModel as? PokemonListViewModel {
+            let pokemons = vm.getPokemonList()
+            cell.setup(with: pokemons[indexPath.item])
         }
         return cell
     }
@@ -135,7 +146,13 @@ extension PokemonListViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        if let viewModel = self.viewModel as? PokemonListViewModel, viewModel.getData()?.next == nil {
+        
+        if self.isFiltering {
+            return .zero
+        }
+        
+        if let viewModel = self.viewModel as? PokemonListViewModel,
+           viewModel.getData()?.next == nil {
             return .zero
         }
         return CGSize(width: collectionView.bounds.width, height: PokemonCollectionFooterView.height)
@@ -153,13 +170,13 @@ extension PokemonListViewController: UICollectionViewDelegateFlowLayout {
                                                                          withReuseIdentifier: PokemonCollectionHeaderView.identifier,
                                                                          for: indexPath) as! PokemonCollectionHeaderView
         headerView.searchBarDelegate = self
-        
         return headerView
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
         if elementKind == UICollectionView.elementKindSectionFooter,
-           let _ = view as? PokemonCollectionFooterView {
+           let _ = view as? PokemonCollectionFooterView,
+           !self.isFiltering {
             if let viewModel = self.viewModel as? PokemonListViewModel, !viewModel.isLoading {
                 viewModel.loadMore()
             }
