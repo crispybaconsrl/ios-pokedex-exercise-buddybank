@@ -27,7 +27,7 @@ class PokemonListViewController: BaseViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+        super.viewWillAppear(animated)
         self.setupUI()
         self.viewModel?.delegate = self
     }

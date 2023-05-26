@@ -20,6 +20,7 @@ class InfoCell: UICollectionViewCell {
     
     private let gradientLayer = CAGradientLayer()
     private let textLabel = UILabel()
+    private let detailsLabel = UILabel()
     
     // MARK: - Constructors -
     
@@ -43,26 +44,46 @@ class InfoCell: UICollectionViewCell {
     
     // MARK: - Public methods -
     
-    func setup(title: String) {
+    func setup(title: String, detail: String = "") {
         self.textLabel.text = title
+        self.detailsLabel.text = detail
     }
     
     // MARK: - Private methods -
     
     private func setupUI() {
         self.addSubview(self.textLabel)
-        self.textLabel.textColor = .white
-        self.textLabel.pin.all().marginLeft(AppTheme.shared.margin)
+        self.addSubview(self.detailsLabel)
+        
+        self.detailsLabel.textColor = AppTheme.shared.colors.gray
+        self.detailsLabel.pin
+            .top()
+            .bottom()
+            .right()
+            .width(50)
+            .marginRight(AppTheme.shared.margin * 2)
+        
+        self.textLabel.textColor = AppTheme.shared.colors.secondary
+        self.textLabel.pin
+            .top()
+            .bottom()
+            .left()
+            .marginLeft(AppTheme.shared.margin)
+            .left(of: self.detailsLabel)
+            .marginRight(AppTheme.shared.margin)
+        
+
+        self.detailsLabel.textAlignment = .right
     }
     
     private func setupGradientLayer() {
         let startColor = AppTheme.shared.colors.main.withAlphaComponent(0.4).cgColor
         let endColor = UIColor.white.cgColor
         self.gradientLayer.colors = [startColor, endColor]
-
+        
         self.gradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
         self.gradientLayer.endPoint = CGPoint(x: 1, y: 0.5)
-
+        
         self.layer.addSublayer(self.gradientLayer)
     }
     

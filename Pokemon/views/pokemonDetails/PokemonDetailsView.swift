@@ -176,8 +176,10 @@ extension PokemonDetailsView: UICollectionViewDataSource {
     }
     
     private func createStatisticCell(at index: IndexPath) -> UICollectionViewCell {
-        let text = self.details?.getStatisticNames()[index.item]
-        return self.createInfoCell(at: index, with: text)
+        let stat = self.details?.statistics[index.item]
+        let name = stat?.details.name ?? ""
+        let value = stat?.baseStat ?? 0
+        return self.createInfoCell(at: index, with: name, detail: "\(value)")
     }
     
     private func createTypeCell(at index: IndexPath) -> UICollectionViewCell {
@@ -185,10 +187,10 @@ extension PokemonDetailsView: UICollectionViewDataSource {
         return self.createInfoCell(at: index, with: text)
     }
     
-    private func createInfoCell(at index: IndexPath, with text: String?) -> UICollectionViewCell {
+    private func createInfoCell(at index: IndexPath, with text: String?, detail: String = "") -> UICollectionViewCell {
         let cell = self.infoCollectionView!.dequeueReusableCell(withReuseIdentifier: InfoCell.identifier, for: index)
         if let infoCell = cell as? InfoCell {
-            infoCell.setup(title: text?.capitalized ?? "-")
+            infoCell.setup(title: text?.capitalized ?? "-", detail: detail)
         }
         return cell
     }
