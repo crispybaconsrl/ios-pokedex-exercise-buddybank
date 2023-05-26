@@ -36,11 +36,11 @@ extension PokemonListViewModel: DataFetcher {
     
     func fetchData() {
         let request = PokemonRequest()
-        request.getPokemonList { result in
+        request.getPokemonList { [weak self] result in
             switch result {
             case .success(let data):
-                self.pokemons = data
-                self.delegate?.reloadNeeded?()
+                self?.pokemons = data
+                self?.delegate?.reloadNeeded?()
             case .failure(let error):
                 print("Request error: \(error)")
             }

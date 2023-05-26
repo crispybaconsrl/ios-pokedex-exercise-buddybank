@@ -41,11 +41,11 @@ extension PokemonDetailsViewModel: DataFetcher {
     func fetchData() {
         let request = PokemonRequest()
         if let id = self.pokemon?.id {
-            request.getPokemonDetails(pokemonId: id) { result in
+            request.getPokemonDetails(pokemonId: id) { [weak self] result in
                 switch result {
                 case .success(let data):
-                    self.details = data
-                    self.delegate?.reloadNeeded?()
+                    self?.details = data
+                    self?.delegate?.reloadNeeded?()
                 case .failure(let error):
                     print("Request error: \(error)")
                 }
