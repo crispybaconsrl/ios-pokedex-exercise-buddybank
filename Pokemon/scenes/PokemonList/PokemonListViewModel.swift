@@ -17,8 +17,8 @@ class PokemonListViewModel: BaseViewModel {
     }
     
     func getPokemon(at index: Int) -> Pokemon? {
-        if let pokemons = self.pokemons, pokemons.results.count > index - 1 {
-            return pokemons.results[index]
+        if self.filteredList.count > index - 1 {
+            return self.filteredList[index]
         }
         return nil
     }
