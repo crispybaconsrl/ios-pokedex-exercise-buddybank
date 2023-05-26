@@ -39,3 +39,21 @@ To implement this project I've used MVVM+Coordinator path as requested, without 
 	**To develop a perfect app I should manage language translations, creating Localizable.strings and filling with related key/value**
 - ❌ Search on pokemons:  
 	**I add a search component using UICollectionReusableView for UICollectionView.elementKindSectionHeader. The flow is quite completed, there is a bug on which I have no time to investigate (search bar resign first responder once I trigger reloadData(). I could have tried using 2 sections, first one for the searchBar, second one for pokemon items and reload the second one section only**
+	
+	
+### Scenes
+
+#### Pokemon list view controller
+
+It is a basic collection view on which I specified:   
+- searchBar (UICollectionView.elementKindSectionHeader)  
+- items rendered on a custom UICollectionView -> PokemonCollectionViewCell  
+- activityIndicatorView (UICollectionView.elementKindSectionFooter): it is used to check when user reach footer and trigger the load of other pokemons.
+
+#### Pokemon details view controller
+
+It is a view on which I added some subiews:
+
+- one label to show pokemon name (could be removed and use navigation bar title to display it)
+- a collection view to render pokemon sprites, with an horizontal layout  
+- another collection view, with vertical layout and two sections; each section have a title; on both section I use the same cell type. In the first section I render pokemon statistics with related values. One the second one, Types of pokemon are listed
