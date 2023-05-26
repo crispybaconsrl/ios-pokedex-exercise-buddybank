@@ -39,7 +39,7 @@ class SectionHeaderView: UICollectionReusableView {
         self.addSubview(self.titleLabel!)
         self.titleLabel?.pin.all()
         self.titleLabel?.textAlignment = .left
-        self.titleLabel?.textColor = .brown
+        self.titleLabel?.textColor = AppTheme.shared.colors.secondary
         self.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
     }
     

@@ -50,7 +50,7 @@ class RadialGradientView: UIView {
     
     private func addGradient() {
         let gradient = CAGradientLayer()
-        gradient.colors = [UIColor.white.cgColor, UIColor.systemPink.withAlphaComponent(0.2).cgColor]
+        gradient.colors = [UIColor.white.cgColor, AppTheme.shared.colors.main.withAlphaComponent(0.2).cgColor]
         gradient.frame = bounds
         gradient.mask = shapeLayer
         layer.addSublayer(gradient)

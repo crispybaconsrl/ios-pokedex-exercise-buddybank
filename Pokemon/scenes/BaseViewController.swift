@@ -19,6 +19,14 @@ class BaseViewController: UIViewController, BaseViewControllerProtocol {
     var viewModel: BaseViewModel?
     lazy var noDataView: NoDataView = NoDataView()
     
+    // MARK: - Layout lifecycle -
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        self.navigationItem.backBarButtonItem?.tintColor = AppTheme.shared.colors.main
+    }
+    
     // MARK: - Class methods -
     
     static func instantiate() -> BaseViewController {

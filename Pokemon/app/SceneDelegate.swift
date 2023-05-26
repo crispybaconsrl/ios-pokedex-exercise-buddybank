@@ -17,6 +17,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let navController = UINavigationController()
+        navController.navigationBar.barTintColor = UIColor.white
+        navController.navigationBar.backgroundColor = UIColor.white
+        navController.navigationBar.titleTextAttributes = [.foregroundColor: AppTheme.shared.colors.main]
+        
         let appWindow = UIWindow(frame: windowScene.coordinateSpace.bounds)
         appWindow.windowScene = windowScene
         

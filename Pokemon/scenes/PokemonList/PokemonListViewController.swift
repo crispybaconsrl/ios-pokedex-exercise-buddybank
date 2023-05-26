@@ -35,6 +35,7 @@ class PokemonListViewController: BaseViewController {
     // MARK: - Private methods -
     
     private func setupUI() {
+        self.view.backgroundColor = .white
         self.setupCollectionView()
         self.setupSearchBar()
     }

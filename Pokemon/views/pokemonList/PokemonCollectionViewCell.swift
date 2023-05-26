@@ -51,7 +51,7 @@ class PokemonCollectionViewCell: UICollectionViewCell {
     private func setupTextLabel() {
         self.textLabel = UILabel()
         self.textLabel?.textAlignment = .center
-        self.textLabel?.textColor = .gray
+        self.textLabel?.textColor = AppTheme.shared.colors.gray
         self.textLabel?.font = UIFont.systemFont(ofSize: 16)
         self.textLabel?.numberOfLines = 1
         self.addSubview(self.textLabel!)

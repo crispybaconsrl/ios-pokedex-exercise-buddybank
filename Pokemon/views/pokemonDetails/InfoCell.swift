@@ -56,7 +56,7 @@ class InfoCell: UICollectionViewCell {
     }
     
     private func setupGradientLayer() {
-        let startColor = UIColor.systemPink.withAlphaComponent(0.4).cgColor
+        let startColor = AppTheme.shared.colors.main.withAlphaComponent(0.4).cgColor
         let endColor = UIColor.white.cgColor
         self.gradientLayer.colors = [startColor, endColor]
 
