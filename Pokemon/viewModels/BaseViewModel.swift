@@ -9,7 +9,9 @@ import Foundation
 
 @objc
 protocol DataFetcher {
-    @objc func fetchData()
+    var isLoading: Bool { get set }
+    @objc func fetchData(url: String?)
+    @objc optional func loadMore()
 }
 
 @objc
@@ -27,6 +29,7 @@ class BaseViewModel: NSObject {
     
     var delegate: BaseViewModelDelegate?
     var dataSource: (any BaseViewModelDataSource)?
+    @objc internal var isLoading: Bool = false
     
     required override init() {
     }

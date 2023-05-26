@@ -38,7 +38,7 @@ extension PokemonDetailsViewModel: BaseViewModelDataSource {
 
 extension PokemonDetailsViewModel: DataFetcher {
    
-    func fetchData() {
+    func fetchData(url: String? = nil) {
         let request = PokemonRequest()
         if let id = self.pokemon?.id {
             request.getPokemonDetails(pokemonId: id) { [weak self] result in

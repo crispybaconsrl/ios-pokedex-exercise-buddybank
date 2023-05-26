@@ -33,17 +33,27 @@ extension PokemonListViewModel: BaseViewModelDataSource {
 }
 
 extension PokemonListViewModel: DataFetcher {
-    
-    func fetchData() {
+   
+    func fetchData(url: String? = nil) {
         let request = PokemonRequest()
-        request.getPokemonList { [weak self] result in
+        self.isLoading = true
+        request.getPokemonList(url: url) { [weak self] result in
             switch result {
             case .success(let data):
+                let list = self?.pokemons?.results ?? []
                 self?.pokemons = data
+                self?.pokemons?.results = list + data.results
                 self?.delegate?.reloadNeeded?()
             case .failure(let error):
                 print("Request error: \(error)")
             }
+            self?.isLoading = false
+        }
+    }
+    
+    func loadMore() {
+        if let next = self.pokemons?.next {
+            self.fetchData(url: next)
         }
     }
     

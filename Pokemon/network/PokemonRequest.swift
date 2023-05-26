@@ -13,7 +13,7 @@ class PokemonRequest: NetworkRequest {
     
     // MARK: - Request section -
     
-    static func createRequest(url: String, endPoint: String?, method: HttpMethod? = .get) -> URLRequest? {
+    static func createRequest(url: String, endPoint: String? = nil, method: HttpMethod? = .get) -> URLRequest? {
         var finalUrl: String = url
         if let e = endPoint {
             finalUrl += "\(e)"
@@ -28,9 +28,9 @@ class PokemonRequest: NetworkRequest {
     
     // MARK: - API -
     
-    func getPokemonList(completion: @escaping (Result<PokemonList, Error>) -> Void) {
-        let request = PokemonRequest.createRequest(url: PokemonRequest.baseUrl,
-                                                  endPoint: PokemonEndpoint.pokemonList.rawValue)
+    func getPokemonList(url: String?, completion: @escaping (Result<PokemonList, Error>) -> Void) {
+        let request = PokemonRequest.createRequest(url: url ?? PokemonRequest.baseUrl,
+                                                   endPoint: (url != nil) ? nil : PokemonEndpoint.pokemonList.rawValue)
         guard let request = request else {
             completion(.failure(NetworkError.invalidRequest))
             return

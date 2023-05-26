@@ -38,6 +38,7 @@ class PokemonListViewController: BaseViewController {
         self.view.backgroundColor = .white
         self.setupCollectionView()
         self.setupSearchBar()
+        self.setupFooter()
     }
     
     private func setupCollectionView() {
@@ -63,8 +64,14 @@ class PokemonListViewController: BaseViewController {
     
     private func setupSearchBar() {
         self.collectionView.register(PokemonCollectionHeaderView.self,
-                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                                withReuseIdentifier: PokemonCollectionHeaderView.identifier)
+                                     forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                                     withReuseIdentifier: PokemonCollectionHeaderView.identifier)
+    }
+    
+    private func setupFooter() {
+        self.collectionView.register(PokemonCollectionFooterView.self,
+                                     forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
+                                     withReuseIdentifier: PokemonCollectionFooterView.identifier)
     }
     
 }
@@ -73,14 +80,16 @@ extension PokemonListViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         print(searchText)
+        // TODO view model filter by text
     }
     
 }
 
 extension PokemonListViewController: UICollectionViewDataSource {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let vm = self.viewModel as? PokemonListViewModel,
-            let data: PokemonList = vm.getData() {
+           let data: PokemonList = vm.getData() {
             return data.results.count
         }
         return 0
@@ -89,12 +98,11 @@ extension PokemonListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = self.collectionView.getCell(at: indexPath)
         if let vm = self.viewModel as? PokemonListViewModel,
-            let data: PokemonList = vm.getData() {
+           let data: PokemonList = vm.getData() {
             cell.setup(with: data.results[indexPath.item])
         }
         return cell
     }
-    
 }
 
 
@@ -123,17 +131,41 @@ extension PokemonListViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: PokemonCollectionHeaderView.height) 
-     }
-     
-     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-         let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-                                                                          withReuseIdentifier: PokemonCollectionHeaderView.identifier,
-                                                                          for: indexPath) as! PokemonCollectionHeaderView
-         headerView.searchBarDelegate = self
-
-         return headerView
-     }
+        return CGSize(width: collectionView.frame.width, height: PokemonCollectionHeaderView.height)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        if let viewModel = self.viewModel as? PokemonListViewModel, viewModel.getData()?.next == nil {
+            return .zero
+        }
+        return CGSize(width: collectionView.bounds.width, height: PokemonCollectionFooterView.height)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        if kind == UICollectionView.elementKindSectionFooter {
+            let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                             withReuseIdentifier: PokemonCollectionFooterView.identifier,
+                                                                             for: indexPath) as! PokemonCollectionFooterView
+            return footerView
+        }
+        
+        let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                         withReuseIdentifier: PokemonCollectionHeaderView.identifier,
+                                                                         for: indexPath) as! PokemonCollectionHeaderView
+        headerView.searchBarDelegate = self
+        
+        return headerView
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
+        if elementKind == UICollectionView.elementKindSectionFooter,
+           let _ = view as? PokemonCollectionFooterView {
+            if let viewModel = self.viewModel as? PokemonListViewModel, !viewModel.isLoading {
+                viewModel.loadMore()
+            }
+        }
+    }
+    
 }
 
 extension PokemonListViewController: UICollectionViewDataSourcePrefetching {
