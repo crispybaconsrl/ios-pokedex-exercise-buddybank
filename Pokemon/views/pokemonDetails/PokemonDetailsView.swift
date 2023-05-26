@@ -157,13 +157,16 @@ extension PokemonDetailsView: UICollectionViewDataSource {
     
     private func createImageCell(at index: IndexPath) -> UICollectionViewCell {
         let cell = self.spritesCollectionView!.dequeueReusableCell(withReuseIdentifier: "SpriteCell", for: index)
+        cell.contentView.subviews.forEach({ $0.removeFromSuperview() })
+        
         let spriteURL = self.sprites[index.item]
         
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.frame = cell.contentView.bounds
         imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        cell.addSubview(imageView)
+        
+        cell.contentView.addSubview(imageView)
         imageView.pin.all()
         Task {
             if let image = await Downloader.shared.downloadImage(with: spriteURL) {
