@@ -21,7 +21,7 @@ class NetworkRequest: NetworkRequestProtocol {
     
     func sendRequest<T: Decodable>(request: URLRequest, completion: @escaping (Result<T, Error>) -> Void) {
         let task = self.urlSession.dataTask(with: request) { data, response, error in
-            if let error = error {
+             if let error = error {
                  completion(.failure(error))
                  return
              }

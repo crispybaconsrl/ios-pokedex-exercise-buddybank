@@ -13,7 +13,7 @@ class PokemonDetailsViewController: BaseViewController {
     
     // MARK: - Private properties -
     
-    private var pokemonDetailsView: PokemonDetailsView?
+    private var pokemonDetailsView: PokemonDetailsView = PokemonDetailsView(frame: .zero)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,9 +29,8 @@ class PokemonDetailsViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.pokemonDetailsView = PokemonDetailsView(frame: .zero)
-        self.pokemonDetailsView?.attach(on: self.view)
-        self.pokemonDetailsView?.pin.all()
+        self.pokemonDetailsView.attach(on: self.view)
+        self.pokemonDetailsView.pin.all()
     }
     
 }
@@ -41,8 +40,7 @@ extension PokemonDetailsViewController: BaseViewModelDelegate {
     func reloadNeeded() {
         if let vm = self.viewModel as? PokemonDetailsViewModel,
            let data: PokemonDetail = vm.getData() {
-//            self.title = data.name.capitalized
-            self.pokemonDetailsView?.setupWith(details: data)
+            self.pokemonDetailsView.setupWith(details: data)
         }
         // TODO hide loader
     }
