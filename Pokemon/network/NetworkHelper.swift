@@ -15,7 +15,7 @@ enum PokemonEndpoint {
     var rawValue: String {
         switch self {
         case .pokemonList:
-            return "pokemon"
+            return "pokemon?limit=50"
         case .pokemonDetails(let index):
             return "pokemon/\(index)"
         }

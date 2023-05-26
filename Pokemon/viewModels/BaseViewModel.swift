@@ -7,7 +7,36 @@
 
 import Foundation
 
+protocol DataFetcher {
+    var isLoading: Bool { get set }
+    func fetchData(url: String?)
+    func loadMore()
+}
+
+extension DataFetcher {
+    func loadMore() {}
+}
+
+protocol BaseViewModelDelegate {
+    func reloadNeeded()
+    func didReceiveError(error: Error)
+}
+
+extension BaseViewModelDelegate {
+    func reloadNeeded() {}
+    func didReceiveError(error: NetworkError) {}
+}
+
+protocol BaseViewModelDataSource {
+    associatedtype DataType: Decodable
+    func getData() -> DataType?
+}
+
 class BaseViewModel: NSObject {
+    
+    var delegate: BaseViewModelDelegate?
+    var dataSource: (any BaseViewModelDataSource)?
+    @objc internal var isLoading: Bool = false
     
     required override init() {
     }
@@ -19,4 +48,5 @@ class BaseViewModel: NSObject {
         }
         return BaseViewModel()
     }
+    
 }

@@ -5,6 +5,8 @@
 //  Created by Luca Davanzo on 23/05/23.
 //
 
+import UIKit
+
 import PinLayout
 
 protocol BaseViewControllerProtocol {
@@ -16,8 +18,16 @@ class BaseViewController: UIViewController, BaseViewControllerProtocol {
     // MARK: - Variables -
     
     weak var coordinator: PokemonCoordinator?
-    weak var viewModel: BaseViewModel?
+    var viewModel: BaseViewModel?
     lazy var noDataView: NoDataView = NoDataView()
+    
+    // MARK: - Layout lifecycle -
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        self.navigationItem.backBarButtonItem?.tintColor = AppTheme.shared.colors.main
+    }
     
     // MARK: - Class methods -
     
@@ -32,6 +42,7 @@ class BaseViewController: UIViewController, BaseViewControllerProtocol {
     // MARK: - Public methods -
     
     func displayNoDataView(_ show: Bool) {
+        self.view.subviews.forEach { $0.isHidden = show }
         self.noDataView.isHidden = !show
         if show {
             self.noDataView.attach(on: self.view)

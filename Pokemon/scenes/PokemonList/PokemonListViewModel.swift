@@ -9,24 +9,69 @@ import Foundation
 
 class PokemonListViewModel: BaseViewModel {
     
+    private var pokemons: PokemonList?
+    private var filteredList: [Pokemon] = []
+    
     required init() {
         super.init()
-        print("list view model")
-        
-        let request = PokemonRequest()
-        request.getPokemonDetails(pokemonId: 1) { result in
-            switch result {
-              case .success(let data):
-                  print("Received data: \(data)")
-                    print("Names: \(data.getTypeNames())")
-                    print("Stats: \(data.getStatisticNames())")
-                
-                  
-              case .failure(let error):
-                  print("Request error: \(error)")
-              }
+    }
+    
+    func getPokemon(at index: Int) -> Pokemon? {
+        if self.filteredList.count > index - 1 {
+            return self.filteredList[index]
         }
-        
+        return nil
+    }
+    
+    func getPokemonList() -> [Pokemon] {
+        return self.filteredList
+    }
+    
+    func filterBy(text: String) {
+        if text.isEmpty {
+            self.filteredList = self.pokemons?.results ?? []
+        } else {
+            self.filteredList = self.pokemons?.results.filter { pokemon in
+                pokemon.name.range(of: text, options: .caseInsensitive) != nil
+            } ?? []
+        }
+        self.delegate?.reloadNeeded()
+    }
+    
+}
+
+extension PokemonListViewModel: BaseViewModelDataSource {
+    
+    func getData() -> PokemonList? {
+        return self.pokemons
+    }
+    
+}
+
+extension PokemonListViewModel: DataFetcher {
+   
+    func fetchData(url: String? = nil) {
+        let request = PokemonRequest()
+        self.isLoading = true
+        request.getPokemonList(url: url) { [weak self] result in
+            switch result {
+            case .success(let data):
+                let list = self?.pokemons?.results ?? []
+                self?.pokemons = data
+                self?.pokemons?.results = list + data.results
+                self?.filteredList = self?.pokemons?.results ?? []
+                self?.delegate?.reloadNeeded()
+            case .failure(let error):
+                self?.delegate?.didReceiveError(error: error)
+            }
+            self?.isLoading = false
+        }
+    }
+    
+    func loadMore() {
+        if let next = self.pokemons?.next {
+            self.fetchData(url: next)
+        }
     }
     
 }

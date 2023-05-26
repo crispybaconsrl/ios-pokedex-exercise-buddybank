@@ -16,12 +16,7 @@ struct Pokemon: Codable {
     // MARK: - Public variables -
     
     let name: String
-    var url: String {
-        didSet {
-            print("asd")
-            
-        }
-    }
+    var url: String
     var imageUrl: String?
     var id: Int?
     
