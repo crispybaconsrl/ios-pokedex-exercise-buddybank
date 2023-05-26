@@ -45,14 +45,7 @@ class PokemonCollectionFooterView: UICollectionReusableView {
     private func setupLoaderView() {
         self.addSubview(self.loaderView)
         self.loaderView.hidesWhenStopped = false
-
-                self.loaderView.pin.center().height(20).width(20)
-//        self.loaderView.translatesAutoresizingMaskIntoConstraints = false
-//
-//        NSLayoutConstraint.activate([
-//            self.loaderView.centerXAnchor.constraint(equalTo: centerXAnchor),
-//            self.loaderView.centerYAnchor.constraint(equalTo: centerYAnchor)
-//        ])
+        self.loaderView.pin.center().height(20).width(20)
     }
     
 }
