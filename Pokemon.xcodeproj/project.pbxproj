@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E24A832C2A24DA6500728B4C /* RefreshableCollectioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24A832B2A24DA6500728B4C /* RefreshableCollectioView.swift */; };
 		E262003E2A1F50C900860F38 /* PokemonCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E262003D2A1F50C900860F38 /* PokemonCollectionView.swift */; };
 		E26200422A1F5AC600860F38 /* PokemonCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26200412A1F5AC600860F38 /* PokemonCollectionViewCell.swift */; };
 		E26200442A1F64DA00860F38 /* PokemonSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26200432A1F64DA00860F38 /* PokemonSearchView.swift */; };
@@ -70,6 +71,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E24A832B2A24DA6500728B4C /* RefreshableCollectioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshableCollectioView.swift; sourceTree = "<group>"; };
 		E262003D2A1F50C900860F38 /* PokemonCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonCollectionView.swift; sourceTree = "<group>"; };
 		E26200412A1F5AC600860F38 /* PokemonCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonCollectionViewCell.swift; sourceTree = "<group>"; };
 		E26200432A1F64DA00860F38 /* PokemonSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonSearchView.swift; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 			children = (
 				E2C0118B2A1E671C00DAD358 /* NoDataView.swift */,
 				E26200492A1F9AE300860F38 /* RadialView.swift */,
+				E24A832B2A24DA6500728B4C /* RefreshableCollectioView.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -477,6 +480,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E24A832C2A24DA6500728B4C /* RefreshableCollectioView.swift in Sources */,
 				E2745C622A1CE67F00A3DC93 /* BaseViewController.swift in Sources */,
 				E2C0117C2A1E394600DAD358 /* PagedResponse.swift in Sources */,
 				E26200592A20A19B00860F38 /* UIViewController+extension.swift in Sources */,

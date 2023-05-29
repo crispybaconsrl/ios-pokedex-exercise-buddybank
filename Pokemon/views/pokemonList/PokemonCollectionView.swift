@@ -10,7 +10,7 @@ import UIKit
 
 import PinLayout
 
-class PokemonCollectionView: UICollectionView {
+class PokemonCollectionView: RefreshableCollectioView {
     
     // MARK: - Constructors -
     

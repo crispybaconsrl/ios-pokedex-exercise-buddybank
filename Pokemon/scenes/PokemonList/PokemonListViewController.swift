@@ -26,16 +26,20 @@ class PokemonListViewController: BaseViewController {
         if let viewModel = self.viewModel as? PokemonListViewModel {
             viewModel.fetchData()
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         self.setupUI()
         self.viewModel?.delegate = self
     }
+    
+    // MARK: - Private methods -
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         self.adjustConstraints()
     }
-
-    // MARK: - Private methods -
     
     private func adjustConstraints() {
         self.collectionView.pin.all()
@@ -74,6 +78,7 @@ class PokemonListViewController: BaseViewController {
         self.collectionView.dataSource = self
         self.collectionView.delegate = self
         self.collectionView.prefetchDataSource = self
+        self.collectionView.refreshDelegate = self
     }
     
     private func setupSearchBar() {
@@ -214,6 +219,14 @@ extension PokemonListViewController: BaseViewModelDelegate {
         DispatchQueue.main.async {
             self.displayNoDataView(true)
         }
+    }
+    
+}
+
+extension PokemonListViewController: RefreshableCollectioViewDelegate {
+    
+    func refreshNeeded() {
+        self.reloadNeeded()
     }
     
 }
