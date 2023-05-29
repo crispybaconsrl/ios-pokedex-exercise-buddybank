@@ -24,20 +24,16 @@ class PokemonListViewController: BaseViewController {
         super.viewDidLoad()
         self.title = "Pokemon Dek"
         self.loadData()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         self.setupUI()
         self.viewModel?.delegate = self
     }
-    
-    // MARK: - Private methods -
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         self.adjustConstraints()
     }
+    
+    // MARK: - Private methods -
     
     private func adjustConstraints() {
         self.collectionView.pin.all()
