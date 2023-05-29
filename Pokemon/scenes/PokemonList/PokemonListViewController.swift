@@ -28,12 +28,12 @@ class PokemonListViewController: BaseViewController {
         self.viewModel?.delegate = self
     }
     
-    // MARK: - Private methods -
-    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         self.adjustConstraints()
     }
+    
+    // MARK: - Private methods -
     
     private func adjustConstraints() {
         self.collectionView.pin.all()
