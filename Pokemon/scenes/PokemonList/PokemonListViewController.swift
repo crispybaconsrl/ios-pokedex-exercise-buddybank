@@ -16,7 +16,7 @@ class PokemonListViewController: BaseViewController {
     
     private var collectionView: PokemonCollectionView!
     private let itemsPerRow: CGFloat = 4
-    private var isFiltering: Bool = false
+    private var searchView = PokemonSearchView()
     
     // MARK: - View controller lifecycle -
     
@@ -35,6 +35,22 @@ class PokemonListViewController: BaseViewController {
     }
     
     // MARK: - Private methods -
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        self.adjustConstraints()
+    }
+    
+    private func adjustConstraints() {
+        self.collectionView.pin.all()
+        if let navBar = self.navigationController?.navigationBar {
+            self.searchView.pin
+                .below(of: navBar)
+                .horizontally()
+                .height(44)
+            self.collectionView.pin.below(of: self.searchView)
+        }
+    }
     
     private func setupUI() {
         self.view.backgroundColor = .white
@@ -65,9 +81,9 @@ class PokemonListViewController: BaseViewController {
     }
     
     private func setupSearchBar() {
-        self.collectionView.register(PokemonCollectionHeaderView.self,
-                                     forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                                     withReuseIdentifier: PokemonCollectionHeaderView.identifier)
+        self.view.addSubview(self.searchView)
+        self.searchView.delegate = self
+        
     }
     
     private func setupFooter() {
@@ -81,18 +97,12 @@ class PokemonListViewController: BaseViewController {
 extension PokemonListViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        print(searchText)
         if let vm = self.viewModel as? PokemonListViewModel {
             vm.filterBy(text: searchText)
-            self.isFiltering = true
-        } else {
-            self.isFiltering = false
         }
-        self.isFiltering = !searchText.isEmpty
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        self.isFiltering = false
         searchBar.resignFirstResponder()
     }
     
@@ -131,7 +141,12 @@ extension PokemonListViewController: UICollectionViewDelegate {
         }
     }
     
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        self.searchView.resignFirstResponder()
+    }
+    
 }
+
 
 extension PokemonListViewController: UICollectionViewDelegateFlowLayout {
     
@@ -143,12 +158,12 @@ extension PokemonListViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: PokemonCollectionHeaderView.height)
+        return .zero
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         
-        if self.isFiltering {
+        if self.searchView.isFiltering {
             return .zero
         }
         
@@ -166,18 +181,13 @@ extension PokemonListViewController: UICollectionViewDelegateFlowLayout {
                                                                              for: indexPath) as! PokemonCollectionFooterView
             return footerView
         }
-        
-        let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-                                                                         withReuseIdentifier: PokemonCollectionHeaderView.identifier,
-                                                                         for: indexPath) as! PokemonCollectionHeaderView
-        headerView.searchBarDelegate = self
-        return headerView
+        return UICollectionReusableView()
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
         if elementKind == UICollectionView.elementKindSectionFooter,
            let _ = view as? PokemonCollectionFooterView,
-           !self.isFiltering {
+           !self.searchView.isFiltering {
             if let viewModel = self.viewModel as? PokemonListViewModel, !viewModel.isLoading {
                 viewModel.loadMore()
             }
@@ -188,7 +198,7 @@ extension PokemonListViewController: UICollectionViewDelegateFlowLayout {
 
 extension PokemonListViewController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-        if let viewModel = self.viewModel as? PokemonListViewModel, !self.isFiltering {
+        if let viewModel = self.viewModel as? PokemonListViewModel, !self.searchView.isFiltering {
             let urlsToPrefetch = viewModel.getPokemonList()
                 .compactMap({ $0.imageUrl != nil ? URL(string: $0.imageUrl!) : nil })
             ImagePrefetcher(urls: urlsToPrefetch).start()

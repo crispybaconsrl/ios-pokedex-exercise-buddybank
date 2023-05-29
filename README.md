@@ -35,10 +35,9 @@ To implement this project I've used MVVM+Coordinator path as requested, without 
 
 - ✅ Theme manager:  
 	I implemented a basic theme manager which help programmer to set app colors and sizes. Is intended to be a demonstration, it could be definitely improved managing fonts/font sizes too.
+- ✅ Search on pokemons  
 - ❌ Translations:  
 	**To develop a perfect app I should manage language translations, creating Localizable.strings and filling with related key/value**
-- ❌ Search on pokemons:  
-	**I add a search component using UICollectionReusableView for UICollectionView.elementKindSectionHeader. The flow is quite completed, there is a bug on which I have no time to investigate (search bar resign first responder once I trigger reloadData(). I could have tried using 2 sections, first one for the searchBar, second one for pokemon items and reload the second one section only**
 - ❌ Add loader component:  
 	**While a network request is executing, it would be nice to add a loader before rendering request result**
 	
