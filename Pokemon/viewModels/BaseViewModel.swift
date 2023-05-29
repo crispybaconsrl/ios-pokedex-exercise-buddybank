@@ -17,7 +17,7 @@ extension DataFetcher {
     func loadMore() {}
 }
 
-protocol BaseViewModelDelegate {
+protocol BaseViewModelDelegate: AnyObject {
     func reloadNeeded()
     func didReceiveError(error: Error)
 }
@@ -27,15 +27,15 @@ extension BaseViewModelDelegate {
     func didReceiveError(error: NetworkError) {}
 }
 
-protocol BaseViewModelDataSource {
+protocol BaseViewModelDataSource: AnyObject {
     associatedtype DataType: Decodable
     func getData() -> DataType?
 }
 
 class BaseViewModel: NSObject {
     
-    var delegate: BaseViewModelDelegate?
-    var dataSource: (any BaseViewModelDataSource)?
+    weak var delegate: BaseViewModelDelegate?
+    weak var dataSource: (any BaseViewModelDataSource)?
     @objc internal var isLoading: Bool = false
     
     required override init() {

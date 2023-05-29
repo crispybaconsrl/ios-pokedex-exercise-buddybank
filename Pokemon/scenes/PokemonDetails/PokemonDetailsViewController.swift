@@ -12,21 +12,21 @@ import PinLayout
 class PokemonDetailsViewController: BaseViewController {
     
     // MARK: - Private properties -
-    
+
     private var pokemonDetailsView: PokemonDetailsView = PokemonDetailsView(frame: .zero)
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Pokemon Details"
         self.view.backgroundColor = .white
-        
+
         if let viewModel = self.viewModel as? PokemonDetailsViewModel {
             viewModel.delegate = self
             viewModel.fetchData()
         }
         // TODO show loader until reloadNeeded
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.pokemonDetailsView.attach(on: self.view)
