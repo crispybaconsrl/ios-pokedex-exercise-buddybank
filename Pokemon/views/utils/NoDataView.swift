@@ -14,7 +14,7 @@ class NoDataView: UIView {
     
     // MARK: - Private properties -
     
-    private var textView: UITextView = UITextView()
+    private var label: UILabel = UILabel()
     
     // MARK: - Constructors -
     
@@ -34,19 +34,24 @@ class NoDataView: UIView {
         self.setupView()
     }
     
+    func setupTitle(_ text: String) {
+        self.label.text = text
+    }
+    
     // MARK: - Private methods -
     
     private func setupView() {
-        self.addSubview(self.textView)
-        self.textView.font = UIFont.systemFont(ofSize: 20)
-        self.textView.text = "No data available"
-        self.textView.textColor = AppTheme.shared.colors.secondary
-        self.textView.textAlignment = .center
-        self.textView.pin
-            .vCenter()
-            .hCenter()
-            .sizeToFit()
-            .margin(20)
+        self.addSubview(self.label)
+        self.label.font = UIFont.systemFont(ofSize: 20)
+        self.label.text = "No data available"
+        self.label.textColor = AppTheme.shared.colors.secondary
+        self.label.textAlignment = .center
+        self.label.numberOfLines = 32
+        
+        self.label.pin
+            .all()
+            .margin(AppTheme.shared.margin * 2)
+            .wrapContent(.vertically)
     }
 }
 

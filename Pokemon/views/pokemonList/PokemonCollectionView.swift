@@ -10,17 +10,13 @@ import UIKit
 
 import PinLayout
 
-class PokemonCollectionView: UICollectionView {
-    
-    // MARK: - Private Properties -
-    
-    private let searchBar = UISearchBar()
+class PokemonCollectionView: RefreshableCollectioView {
     
     // MARK: - Constructors -
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: layout)
-        self.registerRelatedCell()
+        self.registerRelatedCells()
     }
     
     required init?(coder: NSCoder) {
@@ -38,14 +34,22 @@ class PokemonCollectionView: UICollectionView {
         return cell
     }
     
+    func getEmptyCell(at index: IndexPath) -> EmptyCollectionViewCell {
+        guard let cell = self.dequeueReusableCell(withReuseIdentifier: EmptyCollectionViewCell.identifier, for: index) as? EmptyCollectionViewCell else {
+            fatalError("Unable to dequeue PokemonCollectionViewCell")
+        }
+        return cell
+    }
+    
     override func attach(on parent: UIView) {
         super.attach(on: parent)
     }
     
     // MARK: - Private methods -
     
-    private func registerRelatedCell() {
+    private func registerRelatedCells() {
         self.register(PokemonCollectionViewCell.self, forCellWithReuseIdentifier: PokemonCollectionViewCell.identifier)
+        self.register(EmptyCollectionViewCell.self, forCellWithReuseIdentifier: EmptyCollectionViewCell.identifier)
     }
     
 }
