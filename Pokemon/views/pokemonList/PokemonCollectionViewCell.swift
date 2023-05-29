@@ -31,6 +31,12 @@ class PokemonCollectionViewCell: UICollectionViewCell {
         self.setupTextLabel()
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.imageView?.image = nil
+        self.textLabel?.text = nil
+    }
+    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
@@ -78,6 +84,7 @@ class PokemonCollectionViewCell: UICollectionViewCell {
                 }
             }
         }
+        
     }
     
 }
