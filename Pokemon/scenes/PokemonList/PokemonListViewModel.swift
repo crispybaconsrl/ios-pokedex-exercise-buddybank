@@ -17,7 +17,7 @@ class PokemonListViewModel: BaseViewModel {
     }
     
     func getPokemon(at index: Int) -> Pokemon? {
-        if self.filteredList.count > index - 1 {
+        if !self.filteredList.isEmpty, self.filteredList.count > index - 1 {
             return self.filteredList[index]
         }
         return nil

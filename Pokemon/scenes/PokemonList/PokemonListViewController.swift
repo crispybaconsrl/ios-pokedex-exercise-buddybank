@@ -23,9 +23,7 @@ class PokemonListViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Pokemon Dek"
-        if let viewModel = self.viewModel as? PokemonListViewModel {
-            viewModel.fetchData()
-        }
+        self.loadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -93,6 +91,18 @@ class PokemonListViewController: BaseViewController {
                                      withReuseIdentifier: PokemonCollectionFooterView.identifier)
     }
     
+    fileprivate func loadData() {
+        if let viewModel = self.viewModel as? PokemonListViewModel {
+            viewModel.fetchData()
+        }
+    }
+    
+    fileprivate func loadMore() {
+        if let viewModel = self.viewModel as? PokemonListViewModel, !viewModel.isLoading {
+            viewModel.loadMore()
+        }
+    }
+    
 }
 
 extension PokemonListViewController: UISearchBarDelegate {
@@ -113,18 +123,26 @@ extension PokemonListViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let vm = self.viewModel as? PokemonListViewModel {
-            return vm.getPokemonList().count
+            let pokemonCount = vm.getPokemonList().count
+            if pokemonCount > 0 {
+                return pokemonCount
+            }
         }
-        return 0
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = self.collectionView.getCell(at: indexPath)
         if let vm = self.viewModel as? PokemonListViewModel {
             let pokemons = vm.getPokemonList()
-            cell.setup(with: pokemons[indexPath.item])
+            if pokemons.count > 0 {
+                let cell = self.collectionView.getCell(at: indexPath)
+                cell.setup(with: pokemons[indexPath.item])
+                return cell
+            }
         }
-        return cell
+        let emptyCell = self.collectionView.getEmptyCell(at: indexPath)
+        emptyCell.setupTitle("No pokemons, try to refresh")
+        return emptyCell
     }
 }
 
@@ -152,10 +170,14 @@ extension PokemonListViewController: UICollectionViewDelegate {
 extension PokemonListViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let collectionViewWidth = self.collectionView.bounds.width
-        let margin: CGFloat = AppTheme.shared.margin
-        let cellSize = (collectionViewWidth - (self.itemsPerRow + 1) * margin) / self.itemsPerRow
-        return CGSize(width: cellSize, height: cellSize)
+        if let viewModel = self.viewModel as? PokemonListViewModel,
+           !viewModel.getPokemonList().isEmpty {
+            let collectionViewWidth = self.collectionView.bounds.width
+            let margin: CGFloat = AppTheme.shared.margin
+            let cellSize = (collectionViewWidth - (self.itemsPerRow + 1) * margin) / self.itemsPerRow
+            return CGSize(width: cellSize, height: cellSize)
+        }
+        return CGSize(width: collectionView.frame.width, height: 300)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
@@ -189,9 +211,7 @@ extension PokemonListViewController: UICollectionViewDelegateFlowLayout {
         if elementKind == UICollectionView.elementKindSectionFooter,
            let _ = view as? PokemonCollectionFooterView,
            !self.searchView.isFiltering {
-            if let viewModel = self.viewModel as? PokemonListViewModel, !viewModel.isLoading {
-                viewModel.loadMore()
-            }
+            self.loadMore()
         }
     }
     
@@ -216,9 +236,6 @@ extension PokemonListViewController: BaseViewModelDelegate {
     }
     
     func didReceiveError(error: Error) {
-        DispatchQueue.main.async {
-            self.displayNoDataView(true)
-        }
     }
     
 }
@@ -226,7 +243,7 @@ extension PokemonListViewController: BaseViewModelDelegate {
 extension PokemonListViewController: RefreshableCollectioViewDelegate {
     
     func refreshNeeded() {
-        self.reloadNeeded()
+        self.loadData()
     }
     
 }
