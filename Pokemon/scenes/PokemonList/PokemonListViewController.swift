@@ -26,20 +26,16 @@ class PokemonListViewController: BaseViewController {
         if let viewModel = self.viewModel as? PokemonListViewModel {
             viewModel.fetchData()
         }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         self.setupUI()
         self.viewModel?.delegate = self
     }
-    
-    // MARK: - Private methods -
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         self.adjustConstraints()
     }
+
+    // MARK: - Private methods -
     
     private func adjustConstraints() {
         self.collectionView.pin.all()
