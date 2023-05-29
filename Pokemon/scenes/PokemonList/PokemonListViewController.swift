@@ -24,10 +24,6 @@ class PokemonListViewController: BaseViewController {
         super.viewDidLoad()
         self.title = "Pokemon Dek"
         self.loadData()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         self.setupUI()
         self.viewModel?.delegate = self
     }
