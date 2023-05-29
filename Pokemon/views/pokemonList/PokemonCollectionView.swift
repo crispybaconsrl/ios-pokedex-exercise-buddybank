@@ -12,10 +12,6 @@ import PinLayout
 
 class PokemonCollectionView: UICollectionView {
     
-    // MARK: - Private Properties -
-    
-    private let searchBar = UISearchBar()
-    
     // MARK: - Constructors -
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
